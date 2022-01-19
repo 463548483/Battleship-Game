@@ -4,10 +4,10 @@ public class BattleShipBoard implements Board{
   private final int width;
   private final int height;
   public int getWidth(){
-    return width;
+    return this.width;
   }
   public int getHeight(){
-    return height;
+    return this.height;
   }
    /**
    * Constructs a BattleShipBoard with the specified width
