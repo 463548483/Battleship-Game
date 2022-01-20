@@ -1,8 +1,8 @@
 package edu.duke.zw255.battleship;
 
 public class BoardTextView {
-  private final Board toDisplay;
-  public BoardTextView(Board toDisplay){
+  private final Board<Character> toDisplay;
+  public BoardTextView(Board<Character> toDisplay){
     this.toDisplay=toDisplay;
   }
   public String displayMyOwnBoard(){

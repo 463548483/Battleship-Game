@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 public class BoardTextViewTest {
   @Test
   public void test_dispaly_empty() {
-    Board b1=new BattleShipBoard(2,2);
+    Board<Character> b1=new BattleShipBoard<Character>(2,2);
     BoardTextView view=new BoardTextView(b1);
         String expectedHeader= "  0|1\n";
     assertEquals(expectedHeader, view.makeHeader());
