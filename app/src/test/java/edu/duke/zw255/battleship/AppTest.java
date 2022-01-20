@@ -4,12 +4,13 @@
 package edu.duke.zw255.battleship;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintStream;
 import java.io.StringReader;
-import java.io.Reader;
 
 import org.junit.jupiter.api.Test;
 
@@ -29,8 +30,59 @@ class AppTest {
       for (int i = 0; i < expected.length; i++) {
         Placement p = app.readPlacement(prompt);
         assertEquals(p, expected[i]); //did we get the right Placement back
-        //assertEquals(prompt + "\n", bytes.toString()); //should have printed prompt and newline
+        assertEquals(prompt + "\n", bytes.toString()); //should have printed prompt and newline
         bytes.reset(); //clear out bytes for next time around
       }
   }
+
+  @Test
+  public void test_dOP() {
+    StringReader sr=new StringReader("B1V\n");
+    ByteArrayOutputStream bytes=new ByteArrayOutputStream();
+    PrintStream ps=new PrintStream(bytes,true);
+    Board<Character> b = new BattleShipBoard<Character>(2, 2);
+    App app = new App(b,sr, ps);
+    String prompt = "Where would you like to put your ship?";
+    String expectedHeader= "  0|1\n";
+    
+    String expected=
+      "  0|1\n"+
+      "A  |  A\n"+
+      "B  |s B\n"+
+      "  0|1\n";
+    //Placement p =app.doOnePlacement(prompt);
+    try{
+      app.doOnePlacement();
+    } catch(IOException e){};
+    assertEquals(prompt+"\n"+expected, bytes.toString()); //should have printed prompt and newline
+    bytes.reset(); //clear out bytes for next time around
+  }
+
+  @Test
+  void test_main() throws IOException{
+    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+    PrintStream out = new PrintStream(bytes, true);
+        InputStream input = getClass().getClassLoader().getResourceAsStream("input.txt");
+    assertNotNull(input);
+        InputStream expectedStream = getClass().getClassLoader().getResourceAsStream("output.txt");
+    assertNotNull(expectedStream);
+    InputStream oldIn = System.in;
+    PrintStream oldOut = System.out;
+        try {
+      System.setIn(input);
+      System.setOut(out);
+      App.main(new String[0]);
+    }
+    finally {
+      System.setIn(oldIn);
+      System.setOut(oldOut);
+    }
+   String expected = new String(expectedStream.readAllBytes());
+    String actual = bytes.toString();
+
+    assertEquals(expected, actual);
+    
+  }
 }
+
+

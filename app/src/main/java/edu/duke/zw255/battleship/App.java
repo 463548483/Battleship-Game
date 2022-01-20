@@ -14,18 +14,12 @@ public class App {
       final BoardTextView view;
       final BufferedReader inputReader;
       final PrintStream out;
-  public App(){
-    theBoard=new BattleShipBoard(10,20);
-    view=new BoardTextView(theBoard);
-    inputReader=new BufferedReader(new InputStreamReader(System.in));
-    out=System.out;
-  }
 
   public App(Board<Character> theBoard, Reader inputSource, PrintStream out) {
     this.theBoard = theBoard;
     this.view = new BoardTextView(theBoard);
     this.inputReader = new BufferedReader(inputSource);
-    this.out = System.out;
+    this.out = out;
   }
 
   public Placement readPlacement(String prompt) throws IOException {
@@ -35,16 +29,14 @@ public class App {
   }
 
   public void doOnePlacement() throws IOException{
-    readPlacement("Where would you like to put your ship?");
-    BasicShip p1=new BasicShip(new Coordinate("A1"));
+    Placement p=readPlacement("Where would you like to put your ship?");
+    BasicShip p1=new BasicShip(p.getWhere());
     theBoard.tryAddShip(p1);
-    out.println(theBoard);
+    BoardTextView btv=new BoardTextView(theBoard);
+    out.print(btv.displayMyOwnBoard());
     
   }
   
-  public String getGreeting() {
-      return "";
-    }
 
     public static void main(String[] args) throws IOException {
       Board b=new BattleShipBoard<>(10, 20);
