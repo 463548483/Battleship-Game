@@ -11,10 +11,13 @@ public class BoardTextViewTest {
     BoardTextView view=new BoardTextView(b1);
         String expectedHeader= "  0|1\n";
     assertEquals(expectedHeader, view.makeHeader());
+    Coordinate pos=new Coordinate("B1");
+    Ship toadd=new BasicShip(pos);
+    b1.tryAddShip(toadd);
     String expected=
       "  0|1\n"+
       "A  |  A\n"+
-      "B  |  B\n"+
+      "B  |s B\n"+
       "  0|1\n";
     assertEquals(expected, view.displayMyOwnBoard());
   }
