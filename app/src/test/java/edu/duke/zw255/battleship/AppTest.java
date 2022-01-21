@@ -35,28 +35,6 @@ class AppTest {
       }
   }
 
-  @Test
-  public void test_dOP() {
-    StringReader sr=new StringReader("B1V\n");
-    ByteArrayOutputStream bytes=new ByteArrayOutputStream();
-    PrintStream ps=new PrintStream(bytes,true);
-    Board<Character> b = new BattleShipBoard<Character>(2, 2);
-    App app = new App(b,sr, ps);
-    String prompt = "Where would you like to put your ship?";
-    String expectedHeader= "  0|1\n";
-    
-    String expected=
-      "  0|1\n"+
-      "A  |  A\n"+
-      "B  |s B\n"+
-      "  0|1\n";
-    //Placement p =app.doOnePlacement(prompt);
-    try{
-      app.doOnePlacement();
-    } catch(IOException e){};
-    assertEquals(prompt+"\n"+expected, bytes.toString()); //should have printed prompt and newline
-    bytes.reset(); //clear out bytes for next time around
-  }
 
   @Test
   void test_main() throws IOException{

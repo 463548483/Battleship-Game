@@ -15,6 +15,12 @@ public class PlacementTest {
     Placement p3 = new Placement("A9v");
     Placement p4 = new Placement("A9V");
     assertEquals(p3, p4);
+    assertEquals(true, p3.equals(p4));
+    assertEquals(false,p3.equals(""));
+    assertNotEquals(p1, p3);
+    assertEquals(p3.hashCode(), p4.hashCode());
+    assertEquals("(0, 9) V", p3.toString());
   }
+  
 
 }
