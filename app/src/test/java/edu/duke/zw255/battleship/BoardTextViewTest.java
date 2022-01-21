@@ -12,7 +12,7 @@ public class BoardTextViewTest {
         String expectedHeader= "  0|1\n";
     assertEquals(expectedHeader, view.makeHeader());
     Coordinate pos=new Coordinate("B1");
-    Ship toadd=new BasicShip(pos);
+    Ship toadd=new RectangleShip<Character>(pos,'s','*');
     b1.tryAddShip(toadd);
     String expected=
       "  0|1\n"+

@@ -23,7 +23,7 @@ public class BattleShipBoardTest {
   private <T> void checkWhatIsAtBoard(BattleShipBoard<T> b, T[][] expected){
   assertEquals(b.whatIsAt(null), null);
   Coordinate pos=new Coordinate(2,3);
-  Ship ship1=new BasicShip(pos);
+  Ship ship1=new RectangleShip(pos,'s','*');
   assertEquals(b.tryAddShip(ship1),true);
   assertEquals(b.whatIsAt(pos), 's');
   }
