@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public abstract class BasicShip<T> implements Ship<T> {
   
-  protected HashMap<Coordinate,Boolean> myPieces;
+  protected HashMap<Coordinate,Boolean> myPieces;//true=hit
   protected ShipDisplayInfo<T> myDisplayInfo;
   
   public BasicShip(Iterable<Coordinate> where,ShipDisplayInfo<T> myDisplayInfo){
@@ -21,28 +21,37 @@ public abstract class BasicShip<T> implements Ship<T> {
     return myPieces.containsKey(where);
   }
 
+  protected void checkCoordinateInThisShip(Coordinate C){
+    if (!occupiesCoordinates(C)){
+      throw new IllegalArgumentException("Not a valid Coordinate");
+    }
+  }
+  
   @Override
   public boolean isSunk() {
-    // TODO Auto-generated method stub
+    if (myPieces.containsValue(false)==false){
+      return true;
+    }
     return false;
   }
 
   @Override
   public void recordHitAt(Coordinate where) {
-    // TODO Auto-generated method stub
+    checkCoordinateInThisShip(where);
+    myPieces.put(where,true);
     
   }
 
   @Override
   public boolean wasHitAt(Coordinate where) {
-    // TODO Auto-generated method stub
-    return false;
+    
+    return myPieces.get(where);
   }
   @Override
   public T getDisplayInfoAt(Coordinate where) {
-    //TODO this is not right.  We need to
+    checkCoordinateInThisShip(where);
     //look up the hit status of this coordinate
-    return myDisplayInfo.getInfo(where, false);
+    return myDisplayInfo.getInfo(where, myPieces.get(where));
   }
 
 }
