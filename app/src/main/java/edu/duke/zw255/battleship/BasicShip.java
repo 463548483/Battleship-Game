@@ -15,6 +15,11 @@ public abstract class BasicShip<T> implements Ship<T> {
     this.myDisplayInfo=myDisplayInfo;
   }
   
+@Override
+public Iterable<Coordinate> getCoordinates(){
+  return myPieces.keySet();
+}
+  
   @Override
   public boolean occupiesCoordinates(Coordinate where) {
     
