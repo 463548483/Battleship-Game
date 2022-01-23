@@ -37,7 +37,8 @@ public class BattleShipBoard<T> implements Board<T>{
     myShips=new ArrayList<>();
     placementChecker=rule;
   }
-  
+
+  //provide ship status in where if there is a ship
   @Override
   public T whatIsAt(Coordinate where){
     for (Ship<T> s:myShips){
