@@ -16,7 +16,7 @@ public class BattleShipBoard<T> implements Board<T>{
   }
 
   public BattleShipBoard(int w, int h) {
-    this(w, h, new InBoundsRuleChecker<T>(null));
+    this(w, h, new NoCollisionRuleChecker<T>(new InBoundsRuleChecker<T>(null)));
   }
    /**
    * Constructs a BattleShipBoard with the specified width
@@ -50,8 +50,13 @@ public class BattleShipBoard<T> implements Board<T>{
   }
   @Override
   public boolean tryAddShip(Ship<T> toAdd) {
-    myShips.add(toAdd);
-    return true;
+    if (placementChecker.checkPlacement(toAdd, this)==true){
+      myShips.add(toAdd);
+        return true;
+    }
+    else{
+      return false;
+    }
   }
 
 }

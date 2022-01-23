@@ -20,11 +20,19 @@ public class BattleShipBoardTest {
   }
   
   @Test
-  private <T> void checkWhatIsAtBoard(BattleShipBoard<T> b, T[][] expected){
-  assertEquals(b.whatIsAt(null), null);
-  Coordinate pos=new Coordinate(2,3);
-  Ship ship1=new RectangleShip(pos,'s','*');
-  assertEquals(b.tryAddShip(ship1),true);
-  assertEquals(b.whatIsAt(pos), 's');
+  public void test_tryAddShip(){
+    Board<Character> b=new BattleShipBoard<Character>(6, 2); 
+
+    V1ShipFactory f=new V1ShipFactory ();
+    Placement p1=new Placement("B2h");
+    Placement p2=new Placement("A2v");
+    Ship<Character> s1=f.makeBattleship(p1);
+    Ship<Character> s2=f.makeSubmarine(p2);
+
+    
+    assertEquals(true,b.tryAddShip(s1));
+    
+    assertEquals(false,b.tryAddShip(s2));
+
   }
 }
