@@ -10,39 +10,26 @@ import java.io.PrintStream;
 import java.io.Reader;
 
 public class App {
-  final Board<Character> theBoard;
-      final BoardTextView view;
-      final BufferedReader inputReader;
-      final PrintStream out;
-  final AbstractShipFactory<Character> shipFactory;
+  final TextPlayer player1;
+  final TextPlayer player2;
   
-  public App(Board<Character> theBoard, Reader inputSource, PrintStream out) {
-    this.theBoard = theBoard;
-    this.view = new BoardTextView(theBoard);
-    this.inputReader = new BufferedReader(inputSource);
-    this.out = out;
-    this.shipFactory=new V1ShipFactory();
+  public App(Board<Character> Board1,Board<Character> Board2, BufferedReader inputSource, PrintStream out) {
+    V1ShipFactory shipFactory=new V1ShipFactory();
+    this.player1=new TextPlayer("A",Board1, inputSource, out, shipFactory);
+    this.player2=new TextPlayer("B",Board2, inputSource, out, shipFactory);
   }
 
-  public Placement readPlacement(String prompt) throws IOException {
-    out.println(prompt);
-    String s = inputReader.readLine();
-    return new Placement(s);
-  }
-
-  public void doOnePlacement() throws IOException{
-    Placement p=readPlacement("Where would you like to put your ship?");
-    Ship<Character> p1=shipFactory.makeDestroyer(p);
-    theBoard.tryAddShip(p1);
-    BoardTextView btv=new BoardTextView(theBoard);
-    out.print(btv.displayMyOwnBoard());
-    
+  public void doPlacementPhase() throws IOException{
+    player1.doPlacementPhase();
+    player2.doPlacementPhase();
   }
   
 
     public static void main(String[] args) throws IOException {
-      Board b=new BattleShipBoard<>(10, 20);
-      App app=new App(b,new InputStreamReader(System.in),System.out);
-      app.doOnePlacement();
+      Board b1=new BattleShipBoard<>(10, 20);
+   Board b2=new BattleShipBoard<>(10, 20);
+   
+   App app=new App(b1,b2,new BufferedReader((new  InputStreamReader(System.in))),System.out);
+      app.doPlacementPhase();
     }
 }
