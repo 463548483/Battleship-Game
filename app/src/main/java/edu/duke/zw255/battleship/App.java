@@ -25,11 +25,11 @@ public class App {
   }
   
 
-    public static void main(String[] args) throws IOException {
-      Board b1=new BattleShipBoard<>(10, 20);
+  public static void main(String[] args) throws IOException {
+   Board b1=new BattleShipBoard<>(10, 20);
    Board b2=new BattleShipBoard<>(10, 20);
    
    App app=new App(b1,b2,new BufferedReader((new  InputStreamReader(System.in))),System.out);
-      app.doPlacementPhase();
+   app.doPlacementPhase();
     }
 }

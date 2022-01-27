@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 class AppTest {
-  @Disabled
+  
   @Test
   void test_main() throws IOException{
     ByteArrayOutputStream bytes = new ByteArrayOutputStream();

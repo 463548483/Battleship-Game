@@ -49,13 +49,14 @@ public class BattleShipBoard<T> implements Board<T>{
     return null;
   }
   @Override
-  public boolean tryAddShip(Ship<T> toAdd) {
-    if (placementChecker.checkPlacement(toAdd, this)==true){
+  public String tryAddShip(Ship<T> toAdd) {
+    String res=placementChecker.checkPlacement(toAdd, this);
+    if (res==null){
       myShips.add(toAdd);
-        return true;
+        return res;
     }
     else{
-      return false;
+      return res;
     }
   }
 

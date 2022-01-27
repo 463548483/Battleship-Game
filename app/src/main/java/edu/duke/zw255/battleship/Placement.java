@@ -1,5 +1,7 @@
 package edu.duke.zw255.battleship;
 
+import javax.print.attribute.standard.OrientationRequested;
+
 public class Placement {
   private final Coordinate where;
   private final char orientation;
@@ -7,9 +9,13 @@ public class Placement {
     where=w;
     orientation=Character.toUpperCase(o);
   }
-  public Placement(String s){
+  public Placement(String s) throws IllegalArgumentException{
+    if (s.length()!=3){
+      throw new IllegalArgumentException("Invalid placement length");
+    }
     where=new Coordinate(s.substring(0,2));
     orientation=Character.toUpperCase(s.charAt(2));
+    
   }
   public Coordinate getWhere(){
     return where;

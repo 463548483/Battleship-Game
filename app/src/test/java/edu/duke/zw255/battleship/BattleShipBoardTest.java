@@ -30,9 +30,9 @@ public class BattleShipBoardTest {
     Ship<Character> s2=f.makeSubmarine(p2);
 
     
-    assertEquals(true,b.tryAddShip(s1));
+    assertEquals(null,b.tryAddShip(s1));
     
-    assertEquals(false,b.tryAddShip(s2));
+    assertEquals("That placement is invalid: the ship overlaps another ship.\n",b.tryAddShip(s2));
 
   }
 }

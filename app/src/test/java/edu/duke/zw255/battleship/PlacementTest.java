@@ -20,6 +20,8 @@ public class PlacementTest {
     assertNotEquals(p1, p3);
     assertEquals(p3.hashCode(), p4.hashCode());
     assertEquals("(0, 9) V", p3.toString());
+    
+    assertThrows(IllegalArgumentException.class, ()->new Placement("saer"));
   }
   
 

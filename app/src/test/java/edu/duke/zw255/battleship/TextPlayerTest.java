@@ -1,9 +1,11 @@
 package edu.duke.zw255.battleship;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -38,6 +40,9 @@ private TextPlayer createTextPlayer(int w, int h, String inputdata, OutputStream
         bytes.reset(); //clear out bytes for next time around
         //play1.doOnePlacement();
       }
+      
+         TextPlayer play2=createTextPlayer(10,20,"",bytes);
+         assertThrows(EOFException.class, ()->play2.readPlacement(prompt));
   }
 
   @Test
