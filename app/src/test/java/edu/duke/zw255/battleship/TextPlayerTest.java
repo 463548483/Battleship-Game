@@ -44,14 +44,23 @@ private TextPlayer createTextPlayer(int w, int h, String inputdata, OutputStream
   void test_dooneplacement() throws IOException{
 ByteArrayOutputStream bytes=new ByteArrayOutputStream();
       TextPlayer play1=createTextPlayer(3,3,"C0H\nb0h\n",bytes);
-      play1.doOnePlacement();
+      play1.doOnePlacement("Destroyer",(p)->play1.shipFactory.makeDestroyer(p));
         BoardTextView btv=new BoardTextView(new BattleShipBoard<Character>(10,20));
         String[] expected = new String[2];
     expected[0] = "  0|1|2\n" + "A  | |  A\n" + "B  | |  B\n" + "C d|d|d C\n" + "  0|1|2\n";
     expected[1] = "  0|1|2\n" + "A  | |  A\n" + "B d|d|d B\n" + "C d|d|d C\n" + "  0|1|2\n";
-    play1.doOnePlacement();
-    String prompt="Player A where would you like to put your Destroyer?\n";
+                      play1.doOnePlacement("Destroyer",(p)->play1.shipFactory.makeDestroyer(p));
+    String prompt="Player A where would you like to put your Destroyer ?\n";
          assertEquals(prompt+expected[0]+prompt+expected[1],bytes.toString());
         bytes.reset();
   }
+
+  @Test
+  void test_parse() throws IOException{
+    
+  } 
+
+
 }
+
+
