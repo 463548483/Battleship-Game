@@ -56,6 +56,7 @@ public class BattleShipBoard<T> implements Board<T>{
     return null;
   }
 
+  
   //provide ship status in where if there is a ship
   @Override
   public T whatIsAtForSelf(Coordinate where){
@@ -93,4 +94,15 @@ public class BattleShipBoard<T> implements Board<T>{
     }
   }
 
+  @Override
+  public boolean winlose(){
+    for (Ship<T> ship:myShips){
+      if(ship.isSunk()==false){
+        return false;
+      }
+    }
+    return true;
+  }
+
+  
 }

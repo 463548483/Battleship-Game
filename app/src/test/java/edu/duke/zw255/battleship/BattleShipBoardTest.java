@@ -57,5 +57,23 @@ public class BattleShipBoardTest {
     assertEquals('X', b.whatIsAtForEnemy(new Coordinate(1,0)));
     assertEquals(null, b.whatIsAtForEnemy(new Coordinate(1,1)));
   }
+
+  @Test
+  public void test_winlose(){
+    Board<Character> b=new BattleShipBoard<Character>(6, 2,'X'); 
+
+    V1ShipFactory f=new V1ShipFactory ();
+    Placement p1=new Placement("B2h");
+    Placement p2=new Placement("A0h");
+    Ship<Character> s1=f.makeBattleship(p1);
+    Ship<Character> s2=f.makeSubmarine(p2);
+    b.tryAddShip(s2);
+    b.fireAt(new Coordinate(0,0));
+    assertFalse(b.winlose());
+    b.fireAt(new Coordinate(0,1));
+    assertTrue(b.winlose());
+  }
+
+
 }
  
