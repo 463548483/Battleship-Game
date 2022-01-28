@@ -23,6 +23,36 @@ public class BoardTextView {
     this.toDisplay=toDisplay;
   }
 
+  public String displayMyBoardWithEnemyNextToIt(BoardTextView enemyView, String myHeader, String enemyHeader) {
+    String own=displayMyOwnBoard();
+    String [] ownlines=own.split("\n");
+    String enemy=enemyView.displayEnemyBoard();
+    String [] enemylines=enemy.split("\n");
+    assert(ownlines.length==enemylines.length);
+    StringBuilder display=new StringBuilder();
+    display.append("\n");
+    display.append("     ");
+    display.append(myHeader);
+    int headlen=2*toDisplay.getWidth()+22-myHeader.length()-5;
+    for (int i=0;i<headlen;i++){
+    display.append(" ");
+    }
+    display.append(enemyHeader);
+    display.append("\n");
+    for (int i=0;i<ownlines.length;i++){
+      display.append(ownlines[i]);
+      if (i==0||i==ownlines.length-1){
+        display.append("  ");
+      }
+      for (int j=0;j<16;j++){
+      display.append(" ");
+      }
+      display.append(enemylines[i]);
+      display.append("\n");
+    }
+    return display.toString();
+  }
+
   public String displayMyOwnBoard(){
     return displayAnyBoard((c)->toDisplay.whatIsAtForSelf(c));
   }
