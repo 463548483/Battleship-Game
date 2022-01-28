@@ -24,7 +24,7 @@ public class InBoundsRuleCheckerTest {
     Ship<Character> s6=f.makeBattleship(new Placement(new Coordinate(1,8),'h'));
 
 
-    Board<Character> b=new BattleShipBoard(6,2);
+    Board<Character> b=new BattleShipBoard(6,2,'X');
     assertEquals(null,rule.checkMyRule(s1,b));
     assertEquals("That placement is invalid: the ship goes off the bottom of the board.\n",rule.checkMyRule(s2,b));
     assertEquals("That placement is invalid: the ship goes off the bottom of the board.\n",rule.checkMyRule(s3,b));

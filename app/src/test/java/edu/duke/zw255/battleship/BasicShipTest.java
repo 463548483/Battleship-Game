@@ -21,6 +21,16 @@ public class BasicShipTest {
       
     }
   }
-  
-  
+
+  @Test
+  public void test_display() {
+    RectangleShip<Character> p1=new RectangleShip<Character>(new Coordinate(2,1),'s','*');
+    assertEquals(null, p1.getDisplayInfoAt(new Coordinate(2,1), false));
+    assertEquals('s', p1.getDisplayInfoAt(new Coordinate(2,1), true));
+    p1.recordHitAt(new Coordinate(2,1));
+    
+    assertEquals('s', p1.getDisplayInfoAt(new Coordinate(2,1), false));
+    assertEquals('*', p1.getDisplayInfoAt(new Coordinate(2,1), true));
+   
+  }
 }

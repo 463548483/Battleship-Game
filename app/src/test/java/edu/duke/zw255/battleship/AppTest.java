@@ -50,8 +50,8 @@ private App createApp(int w, int h, InputStream inputdata, OutputStream bytes){
  
  BufferedReader input=new BufferedReader(new InputStreamReader(inputdata));
     PrintStream ps=new PrintStream(bytes,true);
-    Board<Character> b1 = new BattleShipBoard<Character>(w, h);
-        Board<Character> b2 = new BattleShipBoard<Character>(w, h);
+    Board<Character> b1 = new BattleShipBoard<Character>(w, h,'X');
+        Board<Character> b2 = new BattleShipBoard<Character>(w, h,'X');
 
     V1ShipFactory shipFactory=new V1ShipFactory();
     return new App(b1,b2,input, ps);

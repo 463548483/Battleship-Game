@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 public class RectangleShipTest {
   @Test
   public void test_rectangleship_constructor() {
-    BasicShip<Character> s=new RectangleShip<Character>("s",new Coordinate(1,2), 3, 1,new SimpleShipDisplayInfo('s', '*'));
+    BasicShip<Character> s=new RectangleShip<Character>("s",new Coordinate(1,2), 3, 1,new SimpleShipDisplayInfo('s', '*'),new SimpleShipDisplayInfo(null, 's'));
     assertEquals("s", s.getName());
     assertEquals(true,s.myPieces.containsKey(new  Coordinate(1,3)));
     assertEquals(false,s.myPieces.containsKey(new Coordinate(2,2)));
@@ -18,7 +18,7 @@ public class RectangleShipTest {
 
   @Test
   public void test_hit_sunk(){
-    BasicShip<Character> s=new RectangleShip<Character>("s",new Coordinate(1,2), 3,1,new SimpleShipDisplayInfo('s', '*'));
+    BasicShip<Character> s=new RectangleShip<Character>("s",new Coordinate(1,2), 3,1,new SimpleShipDisplayInfo('s', '*'),new SimpleShipDisplayInfo(null, 's'));
     assertEquals(false, s.isSunk());
     assertEquals(false, s.wasHitAt(new Coordinate(1,2)));
     s.recordHitAt(new Coordinate(1,2));

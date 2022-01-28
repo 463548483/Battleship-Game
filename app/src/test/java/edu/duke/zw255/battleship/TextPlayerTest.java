@@ -18,7 +18,7 @@ private TextPlayer createTextPlayer(int w, int h, String inputdata, OutputStream
  StringReader sr=new StringReader(inputdata);
  BufferedReader input=new BufferedReader(new StringReader(inputdata));
     PrintStream ps=new PrintStream(bytes,true);
-    Board<Character> b = new BattleShipBoard<Character>(w, h);
+    Board<Character> b = new BattleShipBoard<Character>(w, h,'X');
     V1ShipFactory shipFactory=new V1ShipFactory();
     return new TextPlayer("A",b,input, ps,shipFactory);
   }
@@ -50,7 +50,7 @@ private TextPlayer createTextPlayer(int w, int h, String inputdata, OutputStream
 ByteArrayOutputStream bytes=new ByteArrayOutputStream();
       TextPlayer play1=createTextPlayer(3,3,"C0H\nb0h\n",bytes);
       play1.doOnePlacement("Destroyer",(p)->play1.shipFactory.makeDestroyer(p));
-        BoardTextView btv=new BoardTextView(new BattleShipBoard<Character>(10,20));
+        BoardTextView btv=new BoardTextView(new BattleShipBoard<Character>(10,20,'X'));
         String[] expected = new String[2];
     expected[0] = "  0|1|2\n" + "A  | |  A\n" + "B  | |  B\n" + "C d|d|d C\n" + "  0|1|2\n";
     expected[1] = "  0|1|2\n" + "A  | |  A\n" + "B d|d|d B\n" + "C d|d|d C\n" + "  0|1|2\n";

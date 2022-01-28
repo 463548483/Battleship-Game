@@ -1,4 +1,7 @@
 package edu.duke.zw255.battleship;
+
+import java.util.function.Function;
+
 /**
  * This class handles textual display of
  * a Board (i.e., converting it to a string to show
@@ -19,7 +22,16 @@ public class BoardTextView {
   public BoardTextView(Board<Character> toDisplay){
     this.toDisplay=toDisplay;
   }
+
   public String displayMyOwnBoard(){
+    return displayAnyBoard((c)->toDisplay.whatIsAtForSelf(c));
+  }
+
+  public String displayEnemyBoard(){
+    return displayAnyBoard((c)->toDisplay.whatIsAtForEnemy(c));
+  }
+  
+  protected String displayAnyBoard(Function<Coordinate,Character> getSquareFn){
     String expected=makeHeader();
     for (int row=0;row<toDisplay.getHeight();row++){
       expected+=Character.toString(row+'A');
@@ -28,8 +40,8 @@ public class BoardTextView {
    
         Coordinate pos=new Coordinate(row,column);
         expected+=sep;
-        if (toDisplay.whatIsAt(pos)!=null){
-          expected+=Character.toString(toDisplay.whatIsAt(pos));
+        if (getSquareFn.apply(pos)!=null){
+          expected+=Character.toString(getSquareFn.apply(pos));
         }
         else{
           expected+=" ";

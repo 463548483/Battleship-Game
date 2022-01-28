@@ -18,13 +18,13 @@ public class RectangleShip<T> extends BasicShip<T> {
   public String getName(){
     return name;
   }
-  public RectangleShip(String name,Coordinate upperLeft, int w, int h, ShipDisplayInfo<T> info){
-    super(makeCoords(upperLeft, w,h),info);
+  public RectangleShip(String name,Coordinate upperLeft, int w, int h, ShipDisplayInfo<T> selfinfo,ShipDisplayInfo<T> enemyinfo){
+    super(makeCoords(upperLeft, w,h),selfinfo,enemyinfo);
     this.name=name;
   }
 
   public RectangleShip(String name,Coordinate upperLeft, int width, int height, T data, T onHit) {
-      this(name,upperLeft, width, height, new SimpleShipDisplayInfo<T>(data, onHit));
+    this(name,upperLeft, width, height, new SimpleShipDisplayInfo<T>(data, onHit),new SimpleShipDisplayInfo<T>(null, data));
   }
   public RectangleShip(Coordinate upperLeft, T data, T onHit) {
     this("testship",upperLeft, 1, 1, data, onHit);

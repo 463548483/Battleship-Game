@@ -26,7 +26,7 @@ public class V1ShipFactoryTest {
     
     assertEquals(ship.getName(),name);
     for (Coordinate c:pos){
-      assertEquals(ship.getDisplayInfoAt(c),letter);
+      assertEquals(ship.getDisplayInfoAt(c,true),letter);
       assertEquals(true,ship.occupiesCoordinates(c));
     }
   }

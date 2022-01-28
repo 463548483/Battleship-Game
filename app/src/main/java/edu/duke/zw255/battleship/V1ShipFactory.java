@@ -1,5 +1,7 @@
 package edu.duke.zw255.battleship;
 
+import org.checkerframework.common.reflection.qual.NewInstance;
+
 public class V1ShipFactory implements AbstractShipFactory<Character> {
 
   protected Ship<Character> createShip(Placement where, int w, int h, char letter, String name){
@@ -14,7 +16,7 @@ public class V1ShipFactory implements AbstractShipFactory<Character> {
       throw new IllegalArgumentException("Invalid Orientation Input, expect 'V' or 'H' but get"+where.getOrientation());
     }
     
-    return new RectangleShip(name,where.getWhere(),w,h,new SimpleShipDisplayInfo<Character>(letter,'*'));
+    return new RectangleShip(name,where.getWhere(),w,h,new SimpleShipDisplayInfo<Character>(letter,'*'),new SimpleShipDisplayInfo<Character>(null, letter));
     
   }
   
