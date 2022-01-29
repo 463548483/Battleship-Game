@@ -124,7 +124,6 @@ public class TextPlayer {
         }
       if (enemyBoard.isLose()){
         out.println("Player "+name+" have won!");
-        System.exit(0);
       }
       break;
 

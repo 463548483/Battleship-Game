@@ -27,7 +27,13 @@ public class App {
   public void doAttackingPhase() throws IOException{
     while(true){
     player1.playOneTurn(player2.theBoard,player2.view);
+    if (player2.theBoard.isLose()){
+      break;
+    }
     player2.playOneTurn(player1.theBoard, player1.view);
+    if (player1.theBoard.isLose()){
+      break;
+    }
     }
   }
 
