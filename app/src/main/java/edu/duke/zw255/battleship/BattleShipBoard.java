@@ -3,6 +3,7 @@ package edu.duke.zw255.battleship;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+
 public class BattleShipBoard<T> implements Board<T>{
   private final int width;
   private final int height;
@@ -95,7 +96,7 @@ public class BattleShipBoard<T> implements Board<T>{
   }
 
   @Override
-  public boolean winlose(){
+  public boolean isLose(){
     for (Ship<T> ship:myShips){
       if(ship.isSunk()==false){
         return false;

@@ -20,8 +20,8 @@ public class TextPlayer {
   final HashMap<String,Function<Placement,Ship<Character>>> shipCreationFns;
   
   public TextPlayer(String name, Board<Character> theBoard, BufferedReader inputSource, PrintStream out,AbstractShipFactory<Character> shipFactory) {
-    this.name=name;
-    this.theBoard = theBoard;
+    this.name=name;//player's name
+    this.theBoard = theBoard;//own board
     this.view = new BoardTextView(theBoard);
     this.inputReader =inputSource;
     this.out = out;
@@ -59,22 +59,78 @@ public class TextPlayer {
 
   
   public Placement readPlacement(String prompt) throws IOException {
+    while(true){
+      try{
+        out.println(prompt);
+        String s = inputReader.readLine();
+        if (s==null){
+          throw new EOFException("Emptry Input");
+        }
+        return new Placement(s);
+        
+      }catch(IllegalArgumentException e){
+        out.println(e.getMessage());
+      }
+    }
+  }
+
+  
+  public void doOnePlacement(String shipName,Function<Placement,Ship<Character>> createFn) throws IOException{
+    while(true){
+      try{
+        String prompt="Player "+name+" where would you like to put your "+shipName+" ?";
+        Placement p=readPlacement(prompt);
+        Ship<Character> p1=createFn.apply(p);
+        String res=theBoard.tryAddShip(p1);
+        if (res!=null){
+          throw new IllegalArgumentException(res);
+        }
+        break;
+      }catch(IllegalArgumentException e){
+        out.println(e.getMessage());
+      }
+    }
+    out.print(view.displayMyOwnBoard());
+    
+  }
+
+  public void playOneTurn(Board<Character> enemyBoard, BoardTextView enemyView) throws IOException{
+    String myHeader="Your ocean";
+    String enemyHeader="Enemy's ocean";
+    out.println(view.displayMyBoardWithEnemyNextToIt(enemyView, myHeader, enemyHeader));
+    fireAction(enemyBoard);
+   
+  }
+  public Coordinate readCoordinate(String prompt) throws IOException{
     out.println(prompt);
     String s = inputReader.readLine();
     if (s==null){
       throw new EOFException("Emptry Input");
     }
-    return new Placement(s);
+    return new Coordinate(s);
   }
 
-  public void doOnePlacement(String shipName,Function<Placement,Ship<Character>> createFn) throws IOException{
-    String prompt="Player "+name+" where would you like to put your "+shipName+" ?";
-    Placement p=readPlacement(prompt);
-    Ship<Character> p1=createFn.apply(p);
-    theBoard.tryAddShip(p1);
-    out.print(view.displayMyOwnBoard());
-    
-  }
+  public void fireAction(Board<Character> enemyBoard) throws IOException{
+    while(true){
+    try{
+      Coordinate c= readCoordinate("Player "+name+", where do you want fire at?");
+      Ship<Character> ship=enemyBoard.fireAt(c);
+      
+        if (ship!=null){
+          out.println("You hit a "+ship.getName()+"!");
+        }
+        else{
+          out.println("You missed!");
+        }
+      if (enemyBoard.isLose()){
+        out.println("Player "+name+" have won!");
+        System.exit(0);
+      }
+      break;
 
-  
+    }catch(IllegalArgumentException e){
+      out.println("Please enter valid choice");
+    }
+  }
+  }
 }

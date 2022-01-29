@@ -68,10 +68,11 @@ public class BattleShipBoardTest {
     Ship<Character> s1=f.makeBattleship(p1);
     Ship<Character> s2=f.makeSubmarine(p2);
     b.tryAddShip(s2);
+    assertFalse(b.isLose());
     b.fireAt(new Coordinate(0,0));
-    assertFalse(b.winlose());
+    assertFalse(b.isLose());
     b.fireAt(new Coordinate(0,1));
-    assertTrue(b.winlose());
+    assertTrue(b.isLose());
   }
 
 

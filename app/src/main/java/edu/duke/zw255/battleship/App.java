@@ -23,7 +23,13 @@ public class App {
     player1.doPlacementPhase();
     player2.doPlacementPhase();
   }
-  
+
+  public void doAttackingPhase() throws IOException{
+    while(true){
+    player1.playOneTurn(player2.theBoard,player2.view);
+    player2.playOneTurn(player1.theBoard, player1.view);
+    }
+  }
 
   public static void main(String[] args) throws IOException {
    Board b1=new BattleShipBoard<>(10, 20,'X');
@@ -31,5 +37,6 @@ public class App {
    
    App app=new App(b1,b2,new BufferedReader((new  InputStreamReader(System.in))),System.out);
    app.doPlacementPhase();
-    }
+   app.doAttackingPhase();
+  }
 }
