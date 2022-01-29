@@ -118,7 +118,15 @@ ByteArrayOutputStream bytes=new ByteArrayOutputStream();
     
   }
   
-  
+  @Test
+  public void test_readcoo()throws IOException{
+      ByteArrayOutputStream bytes=new ByteArrayOutputStream();
+      TextPlayer play1=createTextPlayer(10,20,"",bytes);
+      assertThrows(EOFException.class, ()->play1.readCoordinate("?"));
+    
+}
+
+
 }
 
 
