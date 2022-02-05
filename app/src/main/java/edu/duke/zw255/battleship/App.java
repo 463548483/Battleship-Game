@@ -13,10 +13,21 @@ public class App {
   final TextPlayer player1;
   final TextPlayer player2;
   
-  public App(Board<Character> Board1,Board<Character> Board2, BufferedReader inputSource, PrintStream out) {
-    V1ShipFactory shipFactory=new V1ShipFactory();
-    this.player1=new TextPlayer("A",Board1, inputSource, out, shipFactory);
-    this.player2=new TextPlayer("B",Board2, inputSource, out, shipFactory);
+  public App(Board<Character> Board1,Board<Character> Board2, BufferedReader inputSource, PrintStream out,Boolean Aiscomputer,Boolean Biscomputer) {
+    V2ShipFactory shipFactory=new V2ShipFactory();
+    if (Aiscomputer){
+      this.player1=new ComputerTextPlayer("A",Board1, inputSource, out, shipFactory);
+    }
+    else{
+      this.player1=new TextPlayer("A",Board1, inputSource, out, shipFactory);
+    }
+    if (Biscomputer){
+    this.player2=new ComputerTextPlayer("B",Board2, inputSource, out, shipFactory);
+    
+    }
+    else{
+      this.player2=new TextPlayer("B",Board2, inputSource, out, shipFactory);
+    }
   }
 
   public void doPlacementPhase() throws IOException{
@@ -37,11 +48,56 @@ public class App {
     }
   }
 
+  
+
   public static void main(String[] args) throws IOException {
    Board b1=new BattleShipBoard<>(10, 20,'X');
    Board b2=new BattleShipBoard<>(10, 20,'X');
+   BufferedReader inputSource=new BufferedReader(new InputStreamReader(System.in));
+   PrintStream out=System.out;
+   out.println("Welcome to Battleship Game!");
    
-   App app=new App(b1,b2,new BufferedReader((new  InputStreamReader(System.in))),System.out);
+   Boolean Aiscomputer=false;
+   Boolean Biscomputer=false;
+   while(true){
+     try{
+     out.println("What would you like for Player A\n"+"0 for Human\n"+"1 for Computer");
+     String s=inputSource.readLine();
+     if (s.equals("0")){
+       break;
+     }
+     else if (s.equals("1")){
+       Aiscomputer=true;
+       break;
+     }
+     else{
+       throw new IllegalArgumentException("Invalid Input, please enter 0 or 1");
+     }
+     }catch(IllegalArgumentException e){
+       out.println(e.getMessage());
+     }
+   }
+   while(true){
+     try{
+     out.println("What would you like for Player B\n"+"0 for Human\n"+"1 for Computer");
+     String s=inputSource.readLine();
+     if (s.equals("0")){
+       break;
+     }
+     else if (s.equals("1")){
+       Biscomputer=true;
+       break;
+     }
+     else{
+       throw new IllegalArgumentException("Invalid Input, please enter 0 or 1");
+     }
+     }catch(IllegalArgumentException e){
+       out.println(e.getMessage());
+     }
+   }
+;
+   
+   App app=new App(b1,b2,inputSource,out,Aiscomputer,Biscomputer);
    app.doPlacementPhase();
    app.doAttackingPhase();
   }

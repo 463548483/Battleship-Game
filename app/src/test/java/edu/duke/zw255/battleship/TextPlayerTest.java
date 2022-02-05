@@ -11,6 +11,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.StringReader;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class TextPlayerTest {
@@ -19,7 +20,7 @@ private TextPlayer createTextPlayer(int w, int h, String inputdata, OutputStream
  BufferedReader input=new BufferedReader(new StringReader(inputdata));
     PrintStream ps=new PrintStream(bytes,true);
     Board<Character> b = new BattleShipBoard<Character>(w, h,'X');
-    V1ShipFactory shipFactory=new V1ShipFactory();
+    V2ShipFactory shipFactory=new V2ShipFactory();
     return new TextPlayer("A",b,input, ps,shipFactory);
   }
 
@@ -65,6 +66,7 @@ ByteArrayOutputStream bytes=new ByteArrayOutputStream();
     
   } 
 
+  @Disabled
   @Test
   void test_attacking() throws IOException{
       ByteArrayOutputStream bytes=new ByteArrayOutputStream();
@@ -126,7 +128,81 @@ ByteArrayOutputStream bytes=new ByteArrayOutputStream();
     
 }
 
+  @Test
+  void test_moveaction() throws IOException{
+      ByteArrayOutputStream bytes=new ByteArrayOutputStream();
+      TextPlayer play1=createTextPlayer(3,3,"a0u\nb2\na2\na1\na2r\na1r\n",bytes);
+      play1.doOnePlacement("Battleship",(p)->play1.shipFactory.makeBattleship(p));
+      play1.fireAction(play1.theBoard);
+      bytes.reset();
+      String expected = "  0|1|2\n" + "A  |b|  A\n" + "B b|*|b B\n" + "C  | |  C\n" + "  0|1|2\n";
+      //assertEquals(expected, bytes);
+      bytes.reset();
+      //assertEquals(Battleships.class, play1.theBoard.shipAt(new Coordinate("a1")));
+      play1.moveAction();
+      play1.out.print(play1.view.displayMyOwnBoard());
+      play1.out.print(play1.view.displayEnemyBoard());
+      
+      //assertThrows(IllegalArgumentException.class,()-> play1.moveAction());
+      expected = "  0|1|2\n" + "A  |b|  A\n" + "B  |b|b B\n" + "C  |*|  C\n" + "  0|1|2\n";
+      String expected2 = "  0|1|2\n" + "A  | |  A\n" + "B  | |b B\n" + "C  | |  C\n" + "  0|1|2\n";
+    String prompt="which ship do you want to move, please enter Coordinate?\n"
+      +"There is no ship, please re-enter Coordinate\n"
+      +"\n"
+      +"which ship do you want to move, please enter Coordinate?\n"
+      +"Where do you want to move Battleship\n" 
+      +"That placement is invalid: the ship goes off the right of the board.\n"
+      +"\n"
+      + "Where do you want to move Battleship\n";
+   
+    assertEquals(prompt+expected+expected2,bytes.toString());
+        bytes.reset();
+      
+        //assertEquals(null, null);
+      
+  }
 
+  @Test
+  void test_sonaraction() throws IOException{
+      ByteArrayOutputStream bytes=new ByteArrayOutputStream();
+      TextPlayer play1=createTextPlayer(5,5,"a0u\na3v\nbb\na4\na1\na2r\na1r\n",bytes);
+      play1.doOnePlacement("Battleship",(p)->play1.shipFactory.makeBattleship(p));
+      play1.doOnePlacement("Submarines", (p)->play1.shipFactory.makeSubmarine(p));      //play1.fireAction(play1.theBoard);
+      bytes.reset();
+      
+      play1.sonarAction(play1.theBoard);
+      String expected = "  0|1|2\n" + "A  |b|  A\n" + "B  |b|b B\n" + "C  |*|  C\n" + "  0|1|2\n";
+      String expected2 = "Submarines occupy 2 square\n"
+        +"Destroyers occupy 0 square\n"
+        +"Battleships occupy 2 square\n"
+        +"Carriers occupy 0 square\n";
+    String prompt="which coordinate do you want to scan, please enter Coordinate?\n"
+      +"Invalid Character, expect A0-Z9, but receiveBb\n"
+      +"which coordinate do you want to scan, please enter Coordinate?\n";
+   
+    assertEquals(prompt+expected2+"\n",bytes.toString());
+        bytes.reset();
+      
+      // TextPlayer play2=createTextPlayer(5,5,"",bytes);
+      // assertThrows(IOException.class,()->play2.sonarAction());
+      
+  }
+
+  @Test
+  void test_playoneturn() throws IOException{
+      ByteArrayOutputStream bytes=new ByteArrayOutputStream();
+      TextPlayer play1=createTextPlayer(5,5,"a0u\na3v\nM\na4\na1\na2r\na1r\n",bytes);
+      TextPlayer play2=createTextPlayer(5,5,"a0u\na3v\nS\na4\na1\na2r\na1r\n",bytes);
+      play1.doOnePlacement("Battleship",(p)->play1.shipFactory.makeBattleship(p));
+      play1.doOnePlacement("Submarines", (p)->play1.shipFactory.makeSubmarine(p));    
+      bytes.reset();
+      
+      play1.playOneTurn(play2.theBoard,play2.view);
+      String expected="";
+      //assertEquals(bytes, "");
+  }
+
+  
 }
 
 

@@ -1,0 +1,12 @@
+package edu.duke.zw255.battleship;
+
+public interface AbstractAction<T> {
+  //player's normal action
+  public void fireAt(Board<T> b,Coordinate where);
+
+  //player's special action move ship to new place
+  public void moveShip(Board<T> b,Coordinate where);
+
+  //player's special action scan ship in area of where center
+  public void sonarScan(Board<T> b,Coordinate where);
+}

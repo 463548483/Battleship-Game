@@ -1,20 +1,25 @@
 package edu.duke.zw255.battleship;
 
-import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
 
 public abstract class BasicShip<T> implements Ship<T> {
   
-  protected HashMap<Coordinate,Boolean> myPieces;//true=hit
+  protected LinkedHashMap<Coordinate,Boolean> myPieces;//true=hit
   protected ShipDisplayInfo<T> myDisplayInfo;
   protected ShipDisplayInfo<T> enemyDisplayInfo;
+  final String name;
   
-  public BasicShip(Iterable<Coordinate> where,ShipDisplayInfo<T> myDisplayInfo, ShipDisplayInfo<T> enemyDisplayInfo){
-    myPieces=new HashMap<Coordinate,Boolean>();
+  public BasicShip(String name,Iterable<Coordinate> where,ShipDisplayInfo<T> myDisplayInfo, ShipDisplayInfo<T> enemyDisplayInfo){
+    myPieces=new LinkedHashMap<Coordinate,Boolean>();
     for (Coordinate c:where){
       myPieces.put(c,false);
     }
     this.myDisplayInfo=myDisplayInfo;
     this.enemyDisplayInfo=enemyDisplayInfo;
+    this.name=name;
   }
   
 @Override
@@ -66,5 +71,22 @@ public Iterable<Coordinate> getCoordinates(){
       return enemyDisplayInfo.getInfo(where, myPieces.get(where));
     }
   }
+
+  @Override
+  public void moveShip(Ship<T> olds){
+    Iterable<Coordinate> oldcs=olds.getCoordinates();
+    Iterator<Coordinate> it=myPieces.keySet().iterator();
+    Set<Coordinate> Cods=myPieces.keySet();
+    for (Coordinate c:oldcs){
+      
+      myPieces.put(it.next(),olds.getValue(c));
+    }
+  }
+
+  @Override
+  public Boolean getValue(Coordinate c){
+    return myPieces.get(c);
+  } 
+
 
 }

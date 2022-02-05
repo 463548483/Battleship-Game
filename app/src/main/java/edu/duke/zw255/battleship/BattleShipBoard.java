@@ -1,7 +1,9 @@
 package edu.duke.zw255.battleship;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+
 
 
 public class BattleShipBoard<T> implements Board<T>{
@@ -10,6 +12,8 @@ public class BattleShipBoard<T> implements Board<T>{
   private final ArrayList<Ship<T> > myShips;
   private final PlacementRuleChecker<T> placementChecker;
   private final HashSet<Coordinate> enemyMisses;
+  private final HashMap<Coordinate,T> enemyHits;
+
   final T missInfo;
   
   public int getWidth(){
@@ -41,6 +45,7 @@ public class BattleShipBoard<T> implements Board<T>{
     myShips=new ArrayList<>();
     placementChecker=rule;
     enemyMisses=new HashSet<Coordinate>();
+    enemyHits=new HashMap<Coordinate,T>();
     this.missInfo=missInfo;
   }
 
@@ -50,6 +55,7 @@ public class BattleShipBoard<T> implements Board<T>{
     for (Ship<T> ship:myShips){
       if (ship.occupiesCoordinates(c)==true){
         ship.recordHitAt(c);
+        enemyHits.put(c,ship.getDisplayInfoAt(c, false));
         return ship;
       }
     }
@@ -65,15 +71,20 @@ public class BattleShipBoard<T> implements Board<T>{
   }
 
   protected T whatIsAt(Coordinate where, boolean isSelf){
-     for (Ship<T> s:myShips){
-      if(s.occupiesCoordinates(where)){
-        return s.getDisplayInfoAt(where,isSelf);
-      }
-    }
      if (!isSelf){
        if(enemyMisses.contains(where)){
          return missInfo;
        }
+       if(enemyHits.containsKey(where)){
+         return enemyHits.get(where);
+       }
+     }
+     else{
+      for (Ship<T> s:myShips){
+        if(s.occupiesCoordinates(where)){
+          return s.getDisplayInfoAt(where,isSelf);
+        }
+      }
      }
     return null;
   }
@@ -96,6 +107,23 @@ public class BattleShipBoard<T> implements Board<T>{
   }
 
   @Override
+  public void removeShip(Ship<T> toRemove){
+    myShips.remove(toRemove);
+  }
+  
+  @Override
+  public Ship<T>  shipAt(Coordinate where){
+     for (Ship<T> s:myShips){
+      if(s.occupiesCoordinates(where)){
+        return s;
+      }
+     }
+    return null;
+  }
+
+
+  
+  @Override
   public boolean isLose(){
     for (Ship<T> ship:myShips){
       if(ship.isSunk()==false){
@@ -105,5 +133,46 @@ public class BattleShipBoard<T> implements Board<T>{
     return true;
   }
 
+  @Override
+  public HashMap<String, Integer> sonarScan(Coordinate c){
+    ArrayList<int []> scan=scanSet();
+    HashMap<String, Integer> report=new HashMap<String, Integer>();
+    
+    for (int[] xy:scan){
+      if(c.add(xy).valid(width, height)){
+        Coordinate newc=c.add(xy);
+        if (shipAt(newc)!=null){
+          String scanship=shipAt(newc).getName();
+          if (report.containsKey(scanship)){
+            report.put(scanship,report.get(scanship)+1);
+          }
+          else{
+            report.put(scanship,1);
+          }
+        }
+        
+      }
+    }
+    return report;
+  }
+
+  private ArrayList<int[]> scanSet(){
+    ArrayList<int[]> scan=new ArrayList<int[]>();
+    
+    scan.add(new int[]{-3,0});
+    scan.add(new int[]{3,0});
+    for (int i=0;i<3;i++){
+      scan.add(new int[]{-2,i-1});
+      scan.add(new int[]{2,i-1});
+    }
+    for (int i=0;i<5;i++){
+      scan.add(new int[]{-1,i-2});
+      scan.add(new int[]{1,i-2});
+    }
+    for (int i=0;i<7;i++){
+      scan.add(new int[]{0,i-3});
+    }
+    return scan;
+  }
   
 }

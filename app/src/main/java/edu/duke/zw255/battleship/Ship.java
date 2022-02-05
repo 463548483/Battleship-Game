@@ -4,6 +4,9 @@ package edu.duke.zw255.battleship;
  * generic in typename T, which is the type of information the view needs to
  * display this ship.
  */
+
+import java.util.LinkedHashMap;
+
 public interface Ship<T> {
 
  /**
@@ -63,5 +66,13 @@ public interface Ship<T> {
    * @return The view-specific information at that coordinate.
    */
   public T getDisplayInfoAt(Coordinate where,boolean myShip);
+  
+  //move ship to the new placement
+  public void moveShip(Ship<T> s);
+
+  //return ship coordinate's status
+  public Boolean getValue(Coordinate c);
+
 }
+ 
 
