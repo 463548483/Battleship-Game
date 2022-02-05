@@ -4,15 +4,28 @@ import java.io.BufferedReader;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.function.Function;
 
 public class ComputerTextPlayer extends TextPlayer {
   private final Random randomFn;
-
+  private final ArrayList<Coordinate> fireCoordinate;
+  
   public ComputerTextPlayer(String name, Board<Character> theBoard, BufferedReader inputSource, PrintStream out,AbstractShipFactory<Character> shipFactory){
     super(name,theBoard,inputSource,out,shipFactory);
     randomFn=new Random(5);
+    fireCoordinate=new ArrayList<Coordinate>();
+    setupFireCooridnate();
+  }
+
+  protected void setupFireCooridnate(){
+    
+    for (int r=0;r<theBoard.getHeight();r++){
+      for (int c=0;c<theBoard.getWidth();c++){
+        fireCoordinate.add(new Coordinate(r,c));
+      }
+    }
   }
 
   private Coordinate randomCoordinate(){
@@ -79,7 +92,8 @@ public class ComputerTextPlayer extends TextPlayer {
   public void fireAction(Board<Character> enemyBoard) throws IOException{
     while(true){
     try{
-      Coordinate c=randomCoordinate();
+      Coordinate c=fireCoordinate.get(0);
+      fireCoordinate.remove(0);
       Ship<Character> ship=enemyBoard.fireAt(c);
       
         if (ship!=null){

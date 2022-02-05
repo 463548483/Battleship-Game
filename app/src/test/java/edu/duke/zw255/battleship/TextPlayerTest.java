@@ -66,59 +66,6 @@ ByteArrayOutputStream bytes=new ByteArrayOutputStream();
     
   } 
 
-  @Disabled
-  @Test
-  void test_attacking() throws IOException{
-      ByteArrayOutputStream bytes=new ByteArrayOutputStream();
-      TextPlayer play1=createTextPlayer(3,3,"a0h\nBB\na2\na1\n",bytes);
-      TextPlayer play2=createTextPlayer(3,3,"a1h\na1\n",bytes);
-      play1.doOnePlacement("Submarines", (p)->play1.shipFactory.makeSubmarine(p));
-       play2.doOnePlacement("Submarines", (p)->play2.shipFactory.makeSubmarine(p));
-       String expected1 ="\n"+
-          "     "+"Your ocean"+"             "+"Player A's ocean\n"+
-          "  0|1|2                    0|1|2\n" +
-          "A s|s|  A                A  | |  A\n"+
-          "B  | |  B                B  | |  B\n"+
-          "C  | |  C                C  | |  C\n"+
-          "  0|1|2                    0|1|2\n\n"+
-         
-          "Player A, where do you want fire at?\n"+
-          "Please enter valid choice\n"+
-          "Player A, where do you want fire at?\n"+
-         "You hit a Submarine!"+"\n";
-    String expected2 =
-      "Player A, where would you like to fire at?\n"+
-          "\n"+
-          "    "+"Your Ocean"+"                       "+"Player A's Ocean\n"+
-          "  0|1|2                              0|1|2\n" +
-          "A  |s|* A                          A  | |  A\n"+
-          "B  | |  B                          B  | |  B\n"+
-          "C  | |  C                          C  | |  C\n"+
-          "  0|1|2                              0|1|2\n\n"+
-        "Player A, where do you want fire at?\n"+
-          "You hit a Submarine!\n";
-      String expected3 =
-          
-          "    "+"Your Ocean"+"                       "+"Player A's Ocean\n"+
-          "  0|1|2                              0|1|2\n" +
-          "A s|*|  A                          A  |s|s A\n"+
-          "B  | |  B                          B  | |  B\n"+
-          "C  | |  C                          C  | |  C\n"+
-          "  0|1|2                              0|1|2\n\n"+
-          "Player A, where do you want fire at?\n"+
-         "You hit a Submarine\n"+
-        "Player A have won!\n";
-      bytes.reset();
-      play1.playOneTurn(play2.theBoard, play2.view);
-      //assertEquals(bytes, expected1);
-      bytes.reset();
-      play2.playOneTurn(play1.theBoard, play2.view);
-      //assertEquals(bytes, expected2);
-      bytes.reset();
-      play1.playOneTurn(play2.theBoard, play2.view);
-      //assertEquals(bytes, expected3);
-    
-  }
   
   @Test
   public void test_readcoo()throws IOException{
@@ -192,12 +139,13 @@ ByteArrayOutputStream bytes=new ByteArrayOutputStream();
   void test_playoneturn() throws IOException{
       ByteArrayOutputStream bytes=new ByteArrayOutputStream();
       TextPlayer play1=createTextPlayer(5,5,"a0u\na3v\nM\na4\na1\na2r\na1r\n",bytes);
-      TextPlayer play2=createTextPlayer(5,5,"a0u\na3v\nS\na4\na1\na2r\na1r\n",bytes);
+      TextPlayer play2=createTextPlayer(5,5,"",bytes);
       play1.doOnePlacement("Battleship",(p)->play1.shipFactory.makeBattleship(p));
       play1.doOnePlacement("Submarines", (p)->play1.shipFactory.makeSubmarine(p));    
       bytes.reset();
       
       play1.playOneTurn(play2.theBoard,play2.view);
+      //assertThrows(EOFException.class, ()->play2.playOneTurn(play1.theBoard, play2.view));
       String expected="";
       //assertEquals(bytes, "");
   }

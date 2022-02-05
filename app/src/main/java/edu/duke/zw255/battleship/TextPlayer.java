@@ -121,9 +121,6 @@ public class TextPlayer {
       try{
         out.println(prompt);
         String s = inputReader.readLine();
-        if (s==null){
-          throw new EOFException("Emptry Input");
-        }
         if (actionTimes.containsKey(s)==false||actionTimes.get(s)==0){
           throw new EOFException("Action not exist");
         }
@@ -139,7 +136,7 @@ public class TextPlayer {
         }
         break;
       }catch(EOFException e){
-        out.print(e.getMessage());
+        out.println(e.getMessage());
       }
     }
     
@@ -152,7 +149,11 @@ public class TextPlayer {
     if (s==null){
       throw new EOFException("Emptry Input");
     }
-    return new Coordinate(s);
+    Coordinate c=new Coordinate(s);
+    if (c.valid(theBoard.getWidth(), theBoard.getHeight())==false){
+      throw new IllegalArgumentException("Invalid Coordinate");
+    }
+    return c;
   }
 
   public void fireAction(Board<Character> enemyBoard) throws IOException{

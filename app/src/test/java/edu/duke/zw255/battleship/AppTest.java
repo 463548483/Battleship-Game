@@ -46,6 +46,65 @@ class AppTest {
     
   }
 
+    @Test
+  void test_main2() throws IOException{
+    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+    PrintStream out = new PrintStream(bytes, true);
+        InputStream input = getClass().getClassLoader().getResourceAsStream("inputCH.txt");
+    assertNotNull(input);
+        InputStream expectedStream = getClass().getClassLoader().getResourceAsStream("outputCH.txt");
+    assertNotNull(expectedStream);
+    InputStream oldIn = System.in;
+    PrintStream oldOut = System.out;
+        try {
+      System.setIn(input);
+      System.setOut(out);
+      App.main(new String[0]);
+    }
+    finally {
+      System.setIn(oldIn);
+      System.setOut(oldOut);
+    }
+   String expected = new String(expectedStream.readAllBytes());
+    String actual = bytes.toString();
+
+    assertEquals(expected, actual);
+    
+  }
+
+  @Test
+  void test_main3() throws IOException{
+    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+    PrintStream out = new PrintStream(bytes, true);
+        InputStream input = getClass().getClassLoader().getResourceAsStream("inputCC.txt");
+    assertNotNull(input);
+        InputStream expectedStream = getClass().getClassLoader().getResourceAsStream("outputCC.txt");
+    assertNotNull(expectedStream);
+    InputStream oldIn = System.in;
+    PrintStream oldOut = System.out;
+        try {
+      System.setIn(input);
+      System.setOut(out);
+      App.main(new String[0]);
+    }
+    finally {
+      System.setIn(oldIn);
+      System.setOut(oldOut);
+    }
+   String expected = new String(expectedStream.readAllBytes());
+    String actual = bytes.toString();
+    String prompt="Welcome to Battleship Game!\n"+
+"What would you like for Player A\n"+
+"0 for Human\n"+
+"1 for Computer\n"+
+"What would you like for Player B\n"+
+"0 for Human\n"+
+"1 for Computer\n";
+    assertEquals(prompt+expected,actual);
+    
+  }
+
+  
   private App createApp(int w, int h, InputStream inputdata, OutputStream bytes,Boolean A,Boolean B){
  
  BufferedReader input=new BufferedReader(new InputStreamReader(inputdata));
@@ -58,44 +117,14 @@ class AppTest {
   }
 
 
-  @Disabled
-  @Test
-  void test_parse() throws IOException{
-          ByteArrayOutputStream bytes=new ByteArrayOutputStream();
-        InputStream input = getClass().getClassLoader().getResourceAsStream("input1.txt");
-    assertNotNull(input);
-        InputStream expectedStream = getClass().getClassLoader().getResourceAsStream("output1.txt");
-        App newapp=createApp(10,20,input,bytes,false,false);
-    newapp.doPlacementPhase();
-     String expected = new String(expectedStream.readAllBytes());
-     assertEquals(expected, bytes.toString());
-     bytes.reset();
-
-     
-  }
-  
-  @Disabled
-    @Test
-  void test_attacking() throws IOException{
-          ByteArrayOutputStream bytes=new ByteArrayOutputStream();
-        InputStream input = getClass().getClassLoader().getResourceAsStream("input2.txt");
-    assertNotNull(input);
-        InputStream expectedStream = getClass().getClassLoader().getResourceAsStream("output2.txt");
-        App newapp=createApp(10,20,input,bytes,false,false);
-    newapp.doPlacementPhase();
-    newapp.doAttackingPhase();
-     String expected = new String(expectedStream.readAllBytes());
-     assertEquals(expected, bytes.toString());
-     bytes.reset();
-    }
 
 
   @Test
   void test_computer() throws IOException{
      ByteArrayOutputStream bytes=new ByteArrayOutputStream();
-        InputStream input = getClass().getClassLoader().getResourceAsStream("cinput.txt");
+        InputStream input = getClass().getClassLoader().getResourceAsStream("inputCC.txt");
     assertNotNull(input);
-        InputStream expectedStream = getClass().getClassLoader().getResourceAsStream("coutput.txt");
+        InputStream expectedStream = getClass().getClassLoader().getResourceAsStream("outputCC.txt");
         App newapp=createApp(10,20,input,bytes,true,true);
     newapp.doPlacementPhase();
     newapp.doAttackingPhase();
