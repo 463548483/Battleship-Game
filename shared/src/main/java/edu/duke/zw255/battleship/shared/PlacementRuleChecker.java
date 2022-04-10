@@ -1,6 +1,8 @@
 package edu.duke.zw255.battleship.shared;
 
-public abstract class PlacementRuleChecker<T> {
+import java.io.Serializable;
+
+public abstract class PlacementRuleChecker<T> implements Serializable{
   private final PlacementRuleChecker<T> next;
 
   public PlacementRuleChecker(PlacementRuleChecker<T> next){

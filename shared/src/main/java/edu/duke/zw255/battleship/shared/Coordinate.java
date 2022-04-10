@@ -1,6 +1,8 @@
 package edu.duke.zw255.battleship.shared;
 
-public class Coordinate {
+import java.io.Serializable;
+
+public class Coordinate implements Serializable{
   private final  int row;
   private final  int column;
   public int getRow(){

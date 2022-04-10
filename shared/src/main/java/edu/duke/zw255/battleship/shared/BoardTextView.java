@@ -1,5 +1,6 @@
 package edu.duke.zw255.battleship.shared;
 
+import java.io.Serializable;
 import java.util.function.Function;
 
 /**
@@ -10,7 +11,7 @@ import java.util.function.Function;
  * one for the player's own board, and one for the 
  * enemy's board.
  */
-public class BoardTextView {
+public class BoardTextView implements Serializable{
   /**
    * The Board to display
    */

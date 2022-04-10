@@ -1,8 +1,10 @@
 package edu.duke.zw255.battleship.shared;
 
+import java.io.Serializable;
+
 import javax.print.attribute.standard.OrientationRequested;
 
-public class Placement {
+public class Placement implements Serializable{
   private final Coordinate where;
   private final char orientation;
   public Placement(Coordinate w,char o){

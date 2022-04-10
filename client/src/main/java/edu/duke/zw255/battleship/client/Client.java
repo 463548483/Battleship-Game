@@ -3,10 +3,121 @@
  */
 package edu.duke.zw255.battleship.client;
 
+import java.io.BufferedReader;
+import java.io.EOFException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.io.Reader;
+
+import edu.duke.zw255.battleship.shared.*;
 
 public class Client {
-    public static void main(String[] args) {
-        //LinkedList tokens=new LinkedList();
-        //System.out.println(tokens.size());
+    public static Messenger messenger;
+    public static PrintStream out;
+    public static BufferedReader inputReader;
+    private static TextPlayer p;
+    private static String playerName;
+    private static Board board;
+    private static V2ShipFactory shipFactory;
+
+    static void initOrJoinChoice() throws IOException, ClassNotFoundException {
+        while (true) {
+            try {
+                out.println("Do you want to initial or join room, please enter init or join");
+                String s = inputReader.readLine();
+                if (s.equals("init") == true) {
+                    messenger.send(s);
+                    readPlayerInit();
+                    break;
+                } else if (s.equals("join") == true) {
+                    messenger.send(s);
+                    readPlayerInit();
+                    if ((int) messenger.recv() == Flag.errorFlag) {
+                        throw new IllegalArgumentException("Cannot join the room you mentioned, please re-enter");
+                    }
+                    break;
+                } else {
+                    throw new IllegalArgumentException("Please either enter join or init");
+                }
+            } catch (Exception e) {
+                out.println(e.getMessage());
+            }
+
+        }
+    }
+
+    static void readPlayerInit() {
+        while (true) {
+            try {
+                out.println("Please input 2 parameters, roomname, your player type(huamn/computer), ex: a, human");
+                String s = inputReader.readLine();
+                if (s == "" || s == null) {
+                    throw new EOFException();
+                }
+                String[] params = s.split(",");
+                int size = params.length;
+                if (size != 2) {
+                    throw new IllegalArgumentException("There should be 2 arguments!");
+                }
+                if (params[1].equals("human") == false && params[1].equals("computer") == false) {
+                    throw new IllegalArgumentException("You could only choose type from human or computer");
+                }
+                messenger.send(params[0]);
+                if (params[1].equals("computer")) {
+                    p = new ComputerTextPlayer(playerName, board, inputReader, out, shipFactory);
+                    out.println("You are computer");
+                } else {
+                    p = new TextPlayer(playerName, board, inputReader, out, shipFactory);
+                    out.println("You are human player");
+                }
+                break;
+            } catch (Exception e) {
+                out.println(e.getMessage());
+            }
+        }
+    }
+
+    public static void doAttackingPhase() throws IOException, ClassNotFoundException {
+        while (true) {
+            messenger.send(p.theBoard);
+            messenger.send(p.view);
+            out.println("send board and view to server");
+            int endflag = (Integer) messenger.recv();
+            if (endflag == Flag.loseFlag || endflag == Flag.winFlag) {
+                out.println((String) messenger.recv());
+                break;
+            }
+            out.println("recv flag from server");
+            Board enemyBoard = (Board) messenger.recv();
+            BoardTextView enemyView = (BoardTextView) messenger.recv();
+            out.println("recv board and view from server");
+            p.playOneTurn(enemyBoard, enemyView);
+        }
+    }
+
+    public static void main(String[] args) throws ClassNotFoundException, IOException {
+        out = System.out;
+        if (args.length != 2) {
+            out.println("There should be two arguments: player name and server IP address");
+            return;
+        }
+        Reader inputSource = new InputStreamReader(System.in);
+        inputReader = new BufferedReader(inputSource);
+        out.println("Waiting to connect to the server");
+        messenger = new Messenger(args[1], 12345);
+        playerName = args[0];
+        board = new BattleShipBoard<>(10, 20, 'X');
+        shipFactory = new V2ShipFactory();
+        initOrJoinChoice();
+        out.println("Wait to start");
+        if ((int)messenger.recv()==Flag.startFlag){
+            out.println("start game");
+            p.doPlacementPhase();
+            out.println("finish placement");
+            doAttackingPhase();
+        }
+
+
     }
 }

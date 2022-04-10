@@ -1,11 +1,12 @@
 package edu.duke.zw255.battleship.shared;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-public abstract class BasicShip<T> implements Ship<T> {
+public abstract class BasicShip<T> implements Ship<T>, Serializable {
   
   protected LinkedHashMap<Coordinate,Boolean> myPieces;//true=hit
   protected ShipDisplayInfo<T> myDisplayInfo;

@@ -1,6 +1,8 @@
 package edu.duke.zw255.battleship.shared;
 
-public class SimpleShipDisplayInfo<T> implements ShipDisplayInfo<T> {
+import java.io.Serializable;
+
+public class SimpleShipDisplayInfo<T> implements ShipDisplayInfo<T>, Serializable {
   private T myData;
   private T onHit;
 

@@ -1,12 +1,13 @@
 package edu.duke.zw255.battleship.shared;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
 
 
-public class BattleShipBoard<T> implements Board<T>{
+public class BattleShipBoard<T> implements Board<T>, Serializable{
   private final int width;
   private final int height;
   private final ArrayList<Ship<T> > myShips;

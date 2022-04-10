@@ -1,7 +1,8 @@
 package edu.duke.zw255.battleship.shared;
 
+import java.io.Serializable;
 
-public class V1ShipFactory<T> implements AbstractShipFactory<T> {
+public class V1ShipFactory<T> implements AbstractShipFactory<T>,Serializable {
 
   protected Ship<T> createShip(Placement where, int w, int h, char letter, String name){
     if (where.getOrientation()=='V'){
