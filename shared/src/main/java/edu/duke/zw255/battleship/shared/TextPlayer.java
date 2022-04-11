@@ -12,8 +12,8 @@ import java.util.function.Function;
 
 public class TextPlayer {
   final String name;
-  public final Board<Character> theBoard;
-  public final BoardTextView view;
+  public Board<Character> theBoard;
+  public BoardTextView view;
   final BufferedReader inputReader;
   final PrintStream out;
   final AbstractShipFactory<Character> shipFactory;

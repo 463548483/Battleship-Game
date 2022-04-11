@@ -18,7 +18,9 @@ public class Client {
     public static BufferedReader inputReader;
     private static TextPlayer p;
     private static String playerName;
-    private static Board board;
+    private static Board myboard;
+    private static Board enemyBoard;
+    private static BoardTextView enemyView;
     private static V2ShipFactory shipFactory;
 
     static void initOrJoinChoice() throws IOException, ClassNotFoundException {
@@ -60,15 +62,16 @@ public class Client {
                 if (size != 2) {
                     throw new IllegalArgumentException("There should be 2 arguments!");
                 }
-                if (params[1].equals("human") == false && params[1].equals("computer") == false) {
+                String playerType=params[1].trim();
+                if (playerType.equals("human") == false && playerType.equals("computer") == false) {
                     throw new IllegalArgumentException("You could only choose type from human or computer");
                 }
                 messenger.send(params[0]);
-                if (params[1].equals("computer")) {
-                    p = new ComputerTextPlayer(playerName, board, inputReader, out, shipFactory);
+                if (playerType.equals("computer")) {
+                    p = new ComputerTextPlayer(playerName, myboard, inputReader, out, shipFactory);
                     out.println("You are computer");
                 } else {
-                    p = new TextPlayer(playerName, board, inputReader, out, shipFactory);
+                    p = new TextPlayer(playerName, myboard, inputReader, out, shipFactory);
                     out.println("You are human player");
                 }
                 break;
@@ -80,19 +83,16 @@ public class Client {
 
     public static void doAttackingPhase() throws IOException, ClassNotFoundException {
         while (true) {
-            messenger.send(p.theBoard);
-            messenger.send(p.view);
-            out.println("send board and view to server");
             int endflag = (Integer) messenger.recv();
-            if (endflag == Flag.loseFlag || endflag == Flag.winFlag) {
+            if (endflag == Flag.endFlag) {
                 out.println((String) messenger.recv());
                 break;
             }
-            out.println("recv flag from server");
-            Board enemyBoard = (Board) messenger.recv();
-            BoardTextView enemyView = (BoardTextView) messenger.recv();
-            out.println("recv board and view from server");
+            p.theBoard = (Board) messenger.recv();
+            p.view = (BoardTextView) messenger.recv();
             p.playOneTurn(enemyBoard, enemyView);
+            messenger.send(enemyBoard);
+            messenger.send(enemyView);
         }
     }
 
@@ -107,7 +107,7 @@ public class Client {
         out.println("Waiting to connect to the server");
         messenger = new Messenger(args[1], 12345);
         playerName = args[0];
-        board = new BattleShipBoard<>(10, 20, 'X');
+        myboard = new BattleShipBoard<>(10, 20, 'X');
         shipFactory = new V2ShipFactory();
         initOrJoinChoice();
         out.println("Wait to start");
@@ -115,6 +115,10 @@ public class Client {
             out.println("start game");
             p.doPlacementPhase();
             out.println("finish placement");
+            messenger.send(p.theBoard);
+            messenger.send(p.view);
+            enemyBoard=(Board)messenger.recv();
+            enemyView=(BoardTextView)messenger.recv();
             doAttackingPhase();
         }
 

@@ -44,12 +44,13 @@ public class Server {
           toClientMessenger.send(Flag.errorFlag);
           continue;
         }
+        toClientMessenger.send(Flag.correctFlag);
         curroomHandler=roomMap.get(roomName);
       }
       curroomHandler.acceptOnePlayer(toClientMessenger);
       if (curroomHandler.playerNum==roomContainer){
         roomMap.remove(roomName);
-        threadPoolExecutor.submit(curroomHandler);
+        threadPoolExecutor.execute(curroomHandler);
       }
     }
   }

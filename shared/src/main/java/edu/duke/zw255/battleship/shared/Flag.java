@@ -8,4 +8,5 @@ public class Flag implements Serializable{
     public static int loseFlag=2;
     public static int winFlag=3;
     public static int startFlag=4;
+    public static int endFlag=5;
 }
