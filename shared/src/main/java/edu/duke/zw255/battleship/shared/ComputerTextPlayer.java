@@ -5,18 +5,19 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
 import java.util.function.Function;
 
 public class ComputerTextPlayer extends TextPlayer {
   private final Random randomFn;
-  private final ArrayList<Coordinate> fireCoordinate;
+  protected final HashSet<Coordinate> fireCoordinate;
 
   public ComputerTextPlayer(String name, Board<Character> theBoard, BufferedReader inputSource, PrintStream out,
       AbstractShipFactory<Character> shipFactory) {
     super(name, theBoard, inputSource, out, shipFactory);
     randomFn = new Random(5);
-    fireCoordinate = new ArrayList<Coordinate>();
+    fireCoordinate = new HashSet<Coordinate>();
     setupFireCooridnate();
   }
 
@@ -36,7 +37,7 @@ public class ComputerTextPlayer extends TextPlayer {
   }
 
   public Placement randomPlacement(String shipname) {
-    if (shipname == "Submarine" || shipname == "Destroyer") {
+    if (shipname.equals("Submarine")  || shipname.equals("Destroyer")) {
       int i = randomFn.nextInt(2);
       char[] dir = { 'H', 'V' };
       return new Placement(randomCoordinate(), dir[i]);
@@ -89,8 +90,8 @@ public class ComputerTextPlayer extends TextPlayer {
   public void fireAction(Board<Character> enemyBoard) throws IOException {
     while (true) {
       try {
-        Coordinate c = fireCoordinate.get(0);
-        fireCoordinate.remove(0);
+        Coordinate c = fireCoordinate.iterator().next();
+        fireCoordinate.remove(c);
         Ship<Character> ship = enemyBoard.fireAt(c);
 
         if (ship != null) {

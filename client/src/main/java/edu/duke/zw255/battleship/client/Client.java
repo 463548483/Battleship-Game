@@ -52,7 +52,7 @@ public class Client {
     static void readPlayerInit() {
         while (true) {
             try {
-                out.println("Please input 2 parameters, roomname, your player type(huamn/computer), ex: a, human");
+                out.println("Please input 2 parameters, roomname, your player type(huamn/computer/smart computer), ex: a, human");
                 String s = inputReader.readLine();
                 if (s == "" || s == null) {
                     throw new EOFException();
@@ -63,11 +63,15 @@ public class Client {
                     throw new IllegalArgumentException("There should be 2 arguments!");
                 }
                 String playerType=params[1].trim();
-                if (playerType.equals("human") == false && playerType.equals("computer") == false) {
+                if (playerType.equals("human") == false && playerType.equals("computer") == false && playerType.equals("smart computer") == false) {
                     throw new IllegalArgumentException("You could only choose type from human or computer");
                 }
                 messenger.send(params[0]);
-                if (playerType.equals("computer")) {
+                if (playerType.equals("smart computer")) {
+                    p = new SmartComputerTextPlayer(playerName, myboard, inputReader, out, shipFactory);
+                    out.println("You are smart computer");
+                }
+                else if (playerType.equals("computer")) {
                     p = new ComputerTextPlayer(playerName, myboard, inputReader, out, shipFactory);
                     out.println("You are computer");
                 } else {

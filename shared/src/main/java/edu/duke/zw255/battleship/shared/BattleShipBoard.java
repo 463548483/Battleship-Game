@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 
 
 
@@ -13,7 +14,7 @@ public class BattleShipBoard<T> implements Board<T>, Serializable{
   private final ArrayList<Ship<T> > myShips;
   private final PlacementRuleChecker<T> placementChecker;
   private final HashSet<Coordinate> enemyMisses;
-  private final HashMap<Coordinate,T> enemyHits;
+  public final LinkedHashMap<Coordinate,T> enemyHits;
 
   final T missInfo;
   
@@ -46,7 +47,7 @@ public class BattleShipBoard<T> implements Board<T>, Serializable{
     myShips=new ArrayList<>();
     placementChecker=rule;
     enemyMisses=new HashSet<Coordinate>();
-    enemyHits=new HashMap<Coordinate,T>();
+    enemyHits=new LinkedHashMap<Coordinate,T>();
     this.missInfo=missInfo;
   }
 
