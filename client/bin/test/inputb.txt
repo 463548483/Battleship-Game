@@ -1,0 +1,8 @@
+i
+join
+
+a
+a,computer
+init
+a,catch
+a,smart computer

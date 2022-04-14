@@ -67,14 +67,4 @@ public class Messenger {
     this.socket.close();
   }
 
-  /**
-   * This function is to check if the socket is connected
-   * 
-   * @return true if socket is connected.
-   * @throws IOException
-   */
-  public void messengerAlive() throws IOException {
-    this.socket.sendUrgentData(0xFF);
-    // this.socket.sendUrgentData(0xFF);
-  }
 }

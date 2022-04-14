@@ -16,9 +16,9 @@ public class Client {
     public static Messenger messenger;
     public static PrintStream out;
     public static BufferedReader inputReader;
-    private static TextPlayer p;
+    public static TextPlayer p;
     private static String playerName;
-    private static Board myboard;
+    public static Board myboard;
     private static Board enemyBoard;
     private static BoardTextView enemyView;
     private static V2ShipFactory shipFactory;
@@ -49,7 +49,7 @@ public class Client {
         }
     }
 
-    static void readPlayerInit() {
+    static void readPlayerInit() throws IOException {
         while (true) {
             try {
                 out.println("Please input 2 parameters, roomname, your player type(huamn/computer/smart computer), ex: a, human");
@@ -79,7 +79,7 @@ public class Client {
                     out.println("You are human player");
                 }
                 break;
-            } catch (Exception e) {
+            } catch (EOFException|IllegalArgumentException e) {
                 out.println(e.getMessage());
             }
         }
@@ -87,16 +87,16 @@ public class Client {
 
     public static void doAttackingPhase() throws IOException, ClassNotFoundException {
         while (true) {
+            p.playOneTurn(enemyBoard, enemyView);
+            messenger.send(enemyBoard);
+            messenger.send(enemyView);
             int endflag = (Integer) messenger.recv();
             if (endflag == Flag.endFlag) {
                 out.println((String) messenger.recv());
                 break;
             }
             p.theBoard = (Board) messenger.recv();
-            p.view = (BoardTextView) messenger.recv();
-            p.playOneTurn(enemyBoard, enemyView);
-            messenger.send(enemyBoard);
-            messenger.send(enemyView);
+            p.view = (BoardTextView) messenger.recv();       
         }
     }
 
@@ -125,6 +125,7 @@ public class Client {
             enemyView=(BoardTextView)messenger.recv();
             doAttackingPhase();
         }
+        messenger.closeMessenger();
 
 
     }

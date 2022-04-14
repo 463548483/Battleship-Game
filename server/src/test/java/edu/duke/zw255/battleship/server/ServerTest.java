@@ -8,114 +8,95 @@ import edu.duke.zw255.battleship.shared.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.io.StringReader;
+import java.net.ServerSocket;
+import java.util.concurrent.ThreadPoolExecutor;
 
+import org.checkerframework.checker.units.qual.s;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Disabled;
 
-class ServerDisabled {
 
-  @Disabled
-  void test_main() throws IOException {
-    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-    PrintStream out = new PrintStream(bytes, true);
-    InputStream input = getClass().getClassLoader().getResourceAsStream("input.txt");
-    assertNotNull(input);
-    InputStream expectedStream = getClass().getClassLoader().getResourceAsStream("output.txt");
-    assertNotNull(expectedStream);
-    InputStream oldIn = System.in;
-    PrintStream oldOut = System.out;
-    try {
-      System.setIn(input);
-      System.setOut(out);
-      //Server.main(new String[0]);
-    } finally {
-      System.setIn(oldIn);
-      System.setOut(oldOut);
-    }
-    String expected = new String(expectedStream.readAllBytes());
-    String actual = bytes.toString();
 
-    assertEquals(expected, actual);
+class ServerTest {
+  @Test
+  public void test_joinfail() throws InterruptedException, IOException, ClassNotFoundException {
 
-  }
 
-  @Disabled
-  void test_main2() throws IOException {
-    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-    PrintStream out = new PrintStream(bytes, true);
-    InputStream input = getClass().getClassLoader().getResourceAsStream("inputCH.txt");
-    assertNotNull(input);
-    InputStream expectedStream = getClass().getClassLoader().getResourceAsStream("outputCH.txt");
-    assertNotNull(expectedStream);
-    InputStream oldIn = System.in;
-    PrintStream oldOut = System.out;
-    try {
-      System.setIn(input);
-      System.setOut(out);
-      //Server.main(new String[0]);
-    } finally {
-      System.setIn(oldIn);
-      System.setOut(oldOut);
-    }
-    String expected = new String(expectedStream.readAllBytes());
-    String actual = bytes.toString();
-
-    assertEquals(expected, actual);
-
-  }
-
-  @Disabled
-  void test_main3() throws IOException {
-    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-    PrintStream out = new PrintStream(bytes, true);
-    InputStream input = getClass().getClassLoader().getResourceAsStream("inputCC.txt");
-    assertNotNull(input);
-    InputStream expectedStream = getClass().getClassLoader().getResourceAsStream("outputCC.txt");
-    assertNotNull(expectedStream);
-    InputStream oldIn = System.in;
-    PrintStream oldOut = System.out;
-    try {
-      System.setIn(input);
-      System.setOut(out);
-      //Server.main(new String[0]);
-    } finally {
-      System.setIn(oldIn);
-      System.setOut(oldOut);
-    }
-    String expected = new String(expectedStream.readAllBytes());
-    String actual = bytes.toString();
-    String prompt = "Welcome to Battleship Game!\n" +
-        "What would you like for Player A\n" +
-        "0 for Human\n" +
-        "1 for Computer\n" +
-        "What would you like for Player B\n" +
-        "0 for Human\n" +
-        "1 for Computer\n";
-    assertEquals(prompt + expected, actual);
-
+    Thread th = new Thread() {
+      @Override()
+      public void run() {
+        try {
+          String[] s = new String[1];
+          
+          Server.main(s);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    };
+    th.start();
+    Thread.sleep(100); // a bit of hack
+    Messenger client1 = new Messenger("127.0.0.1", 12345);
+    //assertEquals(0, Server.roomMap.size());
+    client1.send("join");
+    client1.send("b");
+    int flag=(int)client1.recv();
+    assertEquals(Flag.errorFlag, flag);
+    client1.closeMessenger();
   }
 
 
-  @Disabled
-  void test_computer() throws IOException {
-    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-    InputStream input = getClass().getClassLoader().getResourceAsStream("inputCC.txt");
-    assertNotNull(input);
-    InputStream expectedStream = getClass().getClassLoader().getResourceAsStream("outputCC.txt");
-    //Server newapp = createServer(10, 20, input, bytes, true, true);
-    // newapp.doPlacementPhase();
-    // newapp.doAttackingPhase();
-    String expected = new String(expectedStream.readAllBytes());
-    assertEquals(expected, bytes.toString());
-    bytes.reset();
+  @Test
+  public void test_joinSuccess() throws InterruptedException, IOException, ClassNotFoundException {
+
+
+    Thread th = new Thread() {
+      @Override()
+      public void run() {
+        try {
+          String[] s = new String[1];
+          ServerSocket serverSocket= new ServerSocket(12346);
+          Server.roomMap.put("c",new RoomHandler("c", serverSocket));
+          Server.roomContainer=1;
+          Server.main(s);
+        } catch (Exception e) {
+        }
+      }
+    };
+    th.start();
+    Thread.sleep(100); // a bit of hack
+    Messenger client1 = new Messenger("127.0.0.1", 12345);
+
+    client1.send("join");
+    client1.send("c");
+    int flag2=(int)client1.recv();
+    assertEquals(Flag.correctFlag, flag2);
+    
+    client1.closeMessenger();
   }
 
+  @Test
+  public void test_init() throws InterruptedException, IOException, ClassNotFoundException {
+
+    Thread th = new Thread() {
+      @Override()
+      public void run() {
+        try {
+          String[] s = new String[1];
+          Server.main(s);
+        } catch (Exception e) {
+        }
+      }
+    };
+    th.start();
+    Thread.sleep(100); // a bit of hack
+    Messenger client1 = new Messenger("127.0.0.1", 12345);
+    assertEquals(0, Server.roomMap.size());
+    client1.send("init");
+    client1.send("a");
+
+    client1.closeMessenger();
+  }
 }

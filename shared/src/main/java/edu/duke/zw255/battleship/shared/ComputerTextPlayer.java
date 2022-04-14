@@ -5,19 +5,19 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Random;
 import java.util.function.Function;
 
 public class ComputerTextPlayer extends TextPlayer {
   private final Random randomFn;
-  protected final HashSet<Coordinate> fireCoordinate;
+  protected final LinkedHashSet<Coordinate> fireCoordinate;
 
   public ComputerTextPlayer(String name, Board<Character> theBoard, BufferedReader inputSource, PrintStream out,
       AbstractShipFactory<Character> shipFactory) {
     super(name, theBoard, inputSource, out, shipFactory);
     randomFn = new Random(5);
-    fireCoordinate = new HashSet<Coordinate>();
+    fireCoordinate = new LinkedHashSet<Coordinate>();
     setupFireCooridnate();
   }
 

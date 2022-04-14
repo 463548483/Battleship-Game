@@ -21,31 +21,37 @@ public class Server {
   public static ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(4, 10, 60L, TimeUnit.SECONDS,
       new LinkedBlockingQueue<>());
   // key: room name, value: RoomHandler
-  protected static Map<String, RoomHandler> roomMap = new ConcurrentHashMap<>();
-  protected static int roomContainer=2;
+  public static Map<String, RoomHandler> roomMap=new ConcurrentHashMap<>();
+  public static int roomContainer=2;
+  public static RoomHandler curroomHandler;
+  public static Messenger toClientMessenger;
+  public static ServerSocket serverSocket;
 
 
   public static void main(String[] args) throws IOException, ClassNotFoundException {
-    ServerSocket serverSocket = new ServerSocket(12345);
+    serverSocket= new ServerSocket(12345);
     System.out.println("server awaiting connections...");
-    
     while (true){
-      Messenger toClientMessenger = new Messenger(serverSocket);
-      System.out.println(toClientMessenger);
+      toClientMessenger = new Messenger(serverSocket);
+      //System.out.println(toClientMessenger);
       String initType = (String) toClientMessenger.recv();
-      RoomHandler curroomHandler;
       String roomName = (String) toClientMessenger.recv();
       if (initType.equals("init")){        
         curroomHandler=new RoomHandler(roomName, serverSocket);
         roomMap.put(roomName,curroomHandler);
+        System.out.println("init");
       }
+      
       else{
+        System.out.println("if legal join");
         if (roomMap.containsKey(roomName)==false){
+          System.out.println("illegal");
           toClientMessenger.send(Flag.errorFlag);
           continue;
         }
         toClientMessenger.send(Flag.correctFlag);
         curroomHandler=roomMap.get(roomName);
+        System.out.println("join");
       }
       curroomHandler.acceptOnePlayer(toClientMessenger);
       if (curroomHandler.playerNum==roomContainer){

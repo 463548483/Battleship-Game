@@ -16,9 +16,9 @@ public class RoomHandler implements Runnable {
     private ServerSocket serverSocket;
     protected int playerNum;
     protected Map<Integer, Messenger> playerMessengers;
-    private Board[] boards;
-    private BoardTextView[] views;
-    protected static int roomContainer = 2;
+    public Board[] boards;
+    public BoardTextView[] views;
+    public static int roomContainer = 2;
 
     public RoomHandler(String roomName, ServerSocket serverSocket) {
         this.roomName = roomName;
@@ -65,6 +65,15 @@ public class RoomHandler implements Runnable {
         }
     }
 
+    public Boolean endGameDetection(Board board){
+        if (board.isLose()){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
     /**
      * This function make the server receive the updated gameMap.
      * 
@@ -73,12 +82,15 @@ public class RoomHandler implements Runnable {
      */
     public void doAttackingPhaseForPlayers() throws ClassNotFoundException, IOException {
         while (true) {
-
             for (int i = 0; i < roomContainer; i++) {
-                if (boards[i].isLose()) {
+                boards[roomContainer - 1 - i] = (Board) playerMessengers.get(i).recv();
+                views[roomContainer - 1 - i] = (BoardTextView) playerMessengers.get(i).recv();
+            }
+            for (int i = 0; i < roomContainer; i++) {
+                if (endGameDetection(boards[i])) {
                     System.out.println("game end for room " + roomName);
                     sendHelper(Flag.endFlag);
-                    if (boards[roomContainer - 1 - i].isLose()){
+                    if (endGameDetection(boards[roomContainer - 1 - i])){
                         sendHelper("Game end as equal");
                     }
                     else{
@@ -94,10 +106,7 @@ public class RoomHandler implements Runnable {
                 playerMessengers.get(i).send(views[i]);
                 System.out.println("send player board to " + i);
             }
-            for (int i = 0; i < roomContainer; i++) {
-                boards[roomContainer - 1 - i] = (Board) playerMessengers.get(i).recv();
-                views[roomContainer - 1 - i] = (BoardTextView) playerMessengers.get(i).recv();
-            }
+
         }
 
     }
