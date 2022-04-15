@@ -1,5 +1,0 @@
-package edu.duke.zw255.battleship;
-
-public interface ShipDispalyInfo<T> {
-  public T getInfo(Coordinate where, Boolean hit);
-}
