@@ -1,0 +1,398 @@
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A hit your Battleshipat C0!
+Player B hit your Battleshipat C0!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A hit your Battleshipat D0!
+Player B hit your Battleshipat D0!
+Player A hit your Battleshipat D1!
+Player B hit your Battleshipat D1!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A hit your Battleshipat E0!
+Player B hit your Battleshipat E0!
+Player A hit your Carrierat E1!
+Player B hit your Carrierat E1!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A hit your Carrierat F1!
+Player B hit your Carrierat F1!
+Player A hit your Carrierat F2!
+Player B hit your Carrierat F2!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A hit your Carrierat G1!
+Player B hit your Carrierat G1!
+Player A hit your Carrierat G2!
+Player B hit your Carrierat G2!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A hit your Submarineat G5!
+Player B hit your Submarineat G5!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A hit your Carrierat H0!
+Player B hit your Carrierat H0!
+Player A missed!
+Player B missed!
+Player A hit your Carrierat H2!
+Player B hit your Carrierat H2!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A hit your Submarineat H5!
+Player B hit your Submarineat H5!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A hit your Carrierat I0!
+Player B hit your Carrierat I0!
+Player A missed!
+Player B missed!
+Player A hit your Carrierat I2!
+Player B hit your Carrierat I2!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A hit your Destroyerat I6!
+Player B hit your Destroyerat I6!
+Player A hit your Destroyerat I7!
+Player B hit your Destroyerat I7!
+Player A hit your Destroyerat I8!
+Player B hit your Destroyerat I8!
+Player A missed!
+Player B missed!
+Player A hit your Carrierat J0!
+Player B hit your Carrierat J0!
+Player A hit your Carrierat J1!
+Player B hit your Carrierat J1!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A hit your Carrierat K0!
+Player B hit your Carrierat K0!
+Player A hit your Carrierat K1!
+Player B hit your Carrierat K1!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A hit your Carrierat L1!
+Player B hit your Carrierat L1!
+Player A hit your Destroyerat L2!
+Player B hit your Destroyerat L2!
+Player A hit your Destroyerat L3!
+Player B hit your Destroyerat L3!
+Player A hit your Destroyerat L4!
+Player B hit your Destroyerat L4!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A hit your Submarineat M4!
+Player B hit your Submarineat M4!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A hit your Battleshipat M7!
+Player B hit your Battleshipat M7!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A hit your Submarineat N4!
+Player B hit your Submarineat N4!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A hit your Battleshipat N7!
+Player B hit your Battleshipat N7!
+Player A hit your Battleshipat N8!
+Player B hit your Battleshipat N8!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A hit your Battleshipat O7!
+Player B hit your Battleshipat O7!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A hit your Battleshipat P0!
+Player B hit your Battleshipat P0!
+Player A hit your Battleshipat P1!
+Player B hit your Battleshipat P1!
+Player A hit your Battleshipat P2!
+Player B hit your Battleshipat P2!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A hit your Battleshipat Q1!
+Player B hit your Battleshipat Q1!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A hit your Destroyerat R8!
+Player B hit your Destroyerat R8!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A hit your Destroyerat S8!
+Player B hit your Destroyerat S8!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A missed!
+Player B missed!
+Player A hit your Destroyerat T8!
+Player A have won!
