@@ -1,5 +1,5 @@
-package edu.duke.zw255.battleship.shared;
-
+package edu.duke.zw255.battleship.shared
+;
 import java.io.BufferedReader;
 import java.io.EOFException;
 import java.io.IOException;

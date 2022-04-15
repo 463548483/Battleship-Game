@@ -19,7 +19,7 @@ public class TextPlayer {
   final AbstractShipFactory<Character> shipFactory;
   final ArrayList<String> shipsToPlace;
   final HashMap<String, Function<Placement, Ship<Character>>> shipCreationFns;
-  private HashMap<String, Integer> actionTimes;
+  public HashMap<String, Integer> actionTimes;
 
   public TextPlayer(String name, Board<Character> theBoard, BufferedReader inputSource, PrintStream out,
       AbstractShipFactory<Character> shipFactory) {

@@ -13,7 +13,7 @@ public class BattleShipBoard<T> implements Board<T>, Serializable{
   private final int height;
   private final ArrayList<Ship<T> > myShips;
   private final PlacementRuleChecker<T> placementChecker;
-  private final HashSet<Coordinate> enemyMisses;
+  public final HashSet<Coordinate> enemyMisses;
   public final LinkedHashMap<Coordinate,T> enemyHits;
 
   final T missInfo;
