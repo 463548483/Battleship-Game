@@ -13,7 +13,7 @@ public class ComputerTextPlayer extends TextPlayer {
   private final Random randomFn;
   protected final LinkedHashSet<Coordinate> fireCoordinate;
 
-  public ComputerTextPlayer(String name, Board<Character> theBoard, BufferedReader inputSource, PrintStream out,
+  public ComputerTextPlayer(String name, BattleShipBoard theBoard, BufferedReader inputSource, PrintStream out,
       AbstractShipFactory<Character> shipFactory) {
     super(name, theBoard, inputSource, out, shipFactory);
     randomFn = new Random(5);

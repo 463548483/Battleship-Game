@@ -12,7 +12,7 @@ import java.util.function.Function;
 
 public class TextPlayer {
   final String name;
-  public Board<Character> theBoard;
+  public BattleShipBoard theBoard;
   public BoardTextView view;
   final BufferedReader inputReader;
   final PrintStream out;
@@ -21,7 +21,7 @@ public class TextPlayer {
   final HashMap<String, Function<Placement, Ship<Character>>> shipCreationFns;
   public HashMap<String, Integer> actionTimes;
 
-  public TextPlayer(String name, Board<Character> theBoard, BufferedReader inputSource, PrintStream out,
+  public TextPlayer(String name, BattleShipBoard theBoard, BufferedReader inputSource, PrintStream out,
       AbstractShipFactory<Character> shipFactory) {
     this.name = name;// player's name
     this.theBoard = theBoard;// own board

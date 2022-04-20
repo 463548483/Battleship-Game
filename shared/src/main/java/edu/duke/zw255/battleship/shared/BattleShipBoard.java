@@ -11,10 +11,10 @@ import java.util.LinkedHashMap;
 public class BattleShipBoard<T> implements Board<T>, Serializable{
   private final int width;
   private final int height;
-  private final ArrayList<Ship<T> > myShips;
+  public ArrayList<Ship<T> > myShips;
   private final PlacementRuleChecker<T> placementChecker;
-  public final HashSet<Coordinate> enemyMisses;
-  public final LinkedHashMap<Coordinate,T> enemyHits;
+  public HashSet<Coordinate> enemyMisses;
+  public LinkedHashMap<Coordinate,T> enemyHits;
 
   final T missInfo;
   

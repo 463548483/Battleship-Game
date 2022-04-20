@@ -9,6 +9,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.io.Reader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.*;
 
 import edu.duke.zw255.battleship.shared.*;
 
@@ -18,8 +22,8 @@ public class Client {
     public static BufferedReader inputReader;
     public static TextPlayer p;
     private static String playerName;
-    public static Board myboard;
-    private static Board enemyBoard;
+    public static BattleShipBoard myboard;
+    private static BattleShipBoard enemyBoard;
     private static BoardTextView enemyView;
     private static V2ShipFactory shipFactory;
 
@@ -88,15 +92,17 @@ public class Client {
     public static void doAttackingPhase() throws IOException, ClassNotFoundException {
         while (true) {
             p.playOneTurn(enemyBoard, enemyView);
-            messenger.send(enemyBoard);
-            messenger.send(enemyView);
+            messenger.send(enemyBoard.enemyMisses);
+            messenger.send(enemyBoard.enemyHits);
+            messenger.send(p.theBoard.myShips);
             int endflag = (Integer) messenger.recv();
             if (endflag == Flag.endFlag) {
                 out.println((String) messenger.recv());
                 break;
             }
-            p.theBoard = (Board) messenger.recv();
-            p.view = (BoardTextView) messenger.recv();       
+            p.theBoard.enemyMisses = (HashSet<Coordinate>) messenger.recv();
+            p.theBoard.enemyHits = (LinkedHashMap<Coordinate,Character>) messenger.recv();   
+            enemyBoard.myShips =  (ArrayList<Ship<Character> >) messenger.recv();
         }
     }
 
@@ -121,7 +127,7 @@ public class Client {
             out.println("finish placement");
             messenger.send(p.theBoard);
             messenger.send(p.view);
-            enemyBoard=(Board)messenger.recv();
+            enemyBoard=(BattleShipBoard)messenger.recv();
             enemyView=(BoardTextView)messenger.recv();
             doAttackingPhase();
         }

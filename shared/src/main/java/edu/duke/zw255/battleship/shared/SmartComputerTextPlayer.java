@@ -15,7 +15,7 @@ public class SmartComputerTextPlayer extends ComputerTextPlayer {
     public Set<Coordinate> hitCoordinateSet;
     public Coordinate toMove;
 
-    public SmartComputerTextPlayer(String name, Board<Character> theBoard, BufferedReader inputSource, PrintStream out,
+    public SmartComputerTextPlayer(String name, BattleShipBoard theBoard, BufferedReader inputSource, PrintStream out,
             AbstractShipFactory<Character> shipFactory) {
         super(name, theBoard, inputSource, out, shipFactory);
         priorityHitSet = new HashSet<Coordinate>();
@@ -35,6 +35,7 @@ public class SmartComputerTextPlayer extends ComputerTextPlayer {
 
             fireCoordinate.remove(c);
             Ship<Character> ship = enemyBoard.fireAt(c);
+            out.println("You fire at"+c.toString());
 
             if (ship != null) {
                 out.println("Player " + name + " hit enemy " + ship.getName() + " at " + c.print() + "!");
@@ -63,14 +64,16 @@ public class SmartComputerTextPlayer extends ComputerTextPlayer {
     @Override
     public void playOneTurn(Board<Character> enemyBoard, BoardTextView enemyView) {
         while (true) {
-
+            String myHeader = "Your ocean";   
+            String enemyHeader = "Enemy's ocean";
+            out.println(view.displayMyBoardWithEnemyNextToIt(enemyView, myHeader, enemyHeader));
             for (Object o : ((BattleShipBoard) theBoard).enemyHits.keySet()) {
                 Coordinate currHit = (Coordinate) o;
                 if (hitCoordinateSet.contains(currHit) == false) {
                     toMove = currHit;
                     moveAction();
                     hitCoordinateSet.add(currHit);
-                    break;
+                    return;
                 }
             }
             fireAction(enemyBoard);
@@ -87,13 +90,15 @@ public class SmartComputerTextPlayer extends ComputerTextPlayer {
             while (true) {
                 try {
                     Function<Placement, Ship<Character>> createFn = shipCreationFns.get(olds.getName());
-                    Ship<Character> news = createFn.apply(randomPlacement(olds.getName()));
+                    Placement newPlacement=randomPlacement(olds.getName());
+                    Ship<Character> news = createFn.apply(newPlacement);
                     String res = theBoard.tryAddShip(news);
                     // out.print(view.displayMyOwnBoard());
                     if (res != null) {
                         throw new IllegalArgumentException(res);
                     }
                     news.moveShip(olds);
+                    out.println("move from"+toMove.toString()+"to"+newPlacement);
                     break;
                 } catch (IllegalArgumentException e) {
                     out.println(e.getMessage());

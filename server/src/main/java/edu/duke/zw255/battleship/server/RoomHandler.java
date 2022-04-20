@@ -3,12 +3,13 @@ package edu.duke.zw255.battleship.server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import edu.duke.zw255.battleship.shared.*;
 
-import java.util.List;
+import java.util.*;
 import java.util.Map;
 
 public class RoomHandler implements Runnable {
@@ -16,8 +17,11 @@ public class RoomHandler implements Runnable {
     private ServerSocket serverSocket;
     protected int playerNum;
     protected Map<Integer, Messenger> playerMessengers;
-    public Board[] boards;
+    public BattleShipBoard[] boards;
     public BoardTextView[] views;
+    public ArrayList<HashSet<Coordinate> > myMiss;
+    public ArrayList<LinkedHashMap<Coordinate,Character> > myHit;
+    public ArrayList<ArrayList<Ship<Character> > > myShips;
     public static int roomContainer = 2;
 
     public RoomHandler(String roomName, ServerSocket serverSocket) {
@@ -25,8 +29,11 @@ public class RoomHandler implements Runnable {
         this.serverSocket = serverSocket;
         this.playerNum = 0;
         playerMessengers = new ConcurrentHashMap<>();
-        boards = new Board[roomContainer];
+        boards = new BattleShipBoard[roomContainer];
         views = new BoardTextView[roomContainer];
+        myMiss=new ArrayList<HashSet<Coordinate> >();
+        myHit=new ArrayList<LinkedHashMap<Coordinate,Character> >();
+        myShips=new ArrayList<ArrayList<Ship<Character> > >();
     }
 
     @Override
@@ -50,7 +57,7 @@ public class RoomHandler implements Runnable {
     public void StartGameForPlayers() throws IOException, ClassNotFoundException {
         sendHelper(Flag.startFlag);
         for (int i = 0; i < roomContainer; i++) {
-            boards[i] = (Board) playerMessengers.get(i).recv();
+            boards[i] = (BattleShipBoard) playerMessengers.get(i).recv();
             views[i] = (BoardTextView) playerMessengers.get(i).recv();
         }
         for (int i = 0; i < roomContainer; i++) {
@@ -83,8 +90,9 @@ public class RoomHandler implements Runnable {
     public void doAttackingPhaseForPlayers() throws ClassNotFoundException, IOException {
         while (true) {
             for (int i = 0; i < roomContainer; i++) {
-                boards[roomContainer - 1 - i] = (Board) playerMessengers.get(i).recv();
-                views[roomContainer - 1 - i] = (BoardTextView) playerMessengers.get(i).recv();
+                myMiss.add( (HashSet<Coordinate>) playerMessengers.get(i).recv());
+                myHit.add( (LinkedHashMap<Coordinate,Character>) playerMessengers.get(i).recv());
+                myShips.add((ArrayList<Ship<Character> >) playerMessengers.get(i).recv());
             }
             for (int i = 0; i < roomContainer; i++) {
                 if (endGameDetection(boards[i])) {
@@ -102,8 +110,9 @@ public class RoomHandler implements Runnable {
             }
             for (int i = 0; i < roomContainer; i++) {
                 playerMessengers.get(i).send(Flag.correctFlag);
-                playerMessengers.get(i).send(boards[i]);
-                playerMessengers.get(i).send(views[i]);
+                playerMessengers.get(i).send(myMiss.get((roomContainer-i-1)));
+                playerMessengers.get(i).send(myHit.get((roomContainer-i-1)));
+                playerMessengers.get(i).send(myShips.get((roomContainer-i-1)));
                 System.out.println("send player board to " + i);
             }
 
