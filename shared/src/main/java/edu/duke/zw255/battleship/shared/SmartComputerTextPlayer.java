@@ -14,6 +14,7 @@ public class SmartComputerTextPlayer extends ComputerTextPlayer {
     public HashSet<Coordinate> priorityHitSet;
     public Set<Coordinate> hitCoordinateSet;
     public Coordinate toMove;
+    public int moveTime=3;
 
     public SmartComputerTextPlayer(String name, BattleShipBoard theBoard, BufferedReader inputSource, PrintStream out,
             AbstractShipFactory<Character> shipFactory) {
@@ -67,15 +68,22 @@ public class SmartComputerTextPlayer extends ComputerTextPlayer {
             String myHeader = "Your ocean";   
             String enemyHeader = "Enemy's ocean";
             out.println(view.displayMyBoardWithEnemyNextToIt(enemyView, myHeader, enemyHeader));
-            for (Object o : ((BattleShipBoard) theBoard).enemyHits.keySet()) {
-                Coordinate currHit = (Coordinate) o;
-                if (hitCoordinateSet.contains(currHit) == false) {
-                    toMove = currHit;
-                    moveAction();
-                    hitCoordinateSet.add(currHit);
-                    return;
+            if (moveTime>0){
+                for (Object o : ((BattleShipBoard) theBoard).enemyHits.keySet()) {
+                    Coordinate currHit = (Coordinate) o;
+                    if (hitCoordinateSet.contains(currHit) == false) {
+                        toMove = currHit;
+                        if (theBoard.shipAt(toMove)==null){
+                            break;
+                        }
+                        moveAction();
+                        moveTime-=1;
+                        hitCoordinateSet.add(currHit);
+                        return;
+                    }
                 }
             }
+
             fireAction(enemyBoard);
             break;
 

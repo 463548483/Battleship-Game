@@ -18,7 +18,7 @@ public class RoomHandler implements Runnable {
     protected int playerNum;
     protected Map<Integer, Messenger> playerMessengers;
     public BattleShipBoard[] boards;
-    public BoardTextView[] views;
+    //public BoardTextView[] views;
     public ArrayList<HashSet<Coordinate> > myMiss;
     public ArrayList<LinkedHashMap<Coordinate,Character> > myHit;
     public ArrayList<ArrayList<Ship<Character> > > myShips;
@@ -30,7 +30,7 @@ public class RoomHandler implements Runnable {
         this.playerNum = 0;
         playerMessengers = new ConcurrentHashMap<>();
         boards = new BattleShipBoard[roomContainer];
-        views = new BoardTextView[roomContainer];
+        //views =new BoardTextView[roomContainer];
         myMiss=new ArrayList<HashSet<Coordinate> >();
         myHit=new ArrayList<LinkedHashMap<Coordinate,Character> >();
         myShips=new ArrayList<ArrayList<Ship<Character> > >();
@@ -58,11 +58,15 @@ public class RoomHandler implements Runnable {
         sendHelper(Flag.startFlag);
         for (int i = 0; i < roomContainer; i++) {
             boards[i] = (BattleShipBoard) playerMessengers.get(i).recv();
-            views[i] = (BoardTextView) playerMessengers.get(i).recv();
+            // System.out.println(boards[i]);
+            //views[i] =(BoardTextView)playerMessengers.get(i).recv();
+            myHit.add(i,null);
+            myMiss.add(i,null);
+            myShips.add(i,null);
         }
         for (int i = 0; i < roomContainer; i++) {
             playerMessengers.get(i).send(boards[roomContainer - 1 - i]);
-            playerMessengers.get(i).send(views[roomContainer - 1 - i]);
+           // playerMessengers.get(i).send(views[roomContainer - 1 - i]);
         }
     }
 
@@ -90,9 +94,10 @@ public class RoomHandler implements Runnable {
     public void doAttackingPhaseForPlayers() throws ClassNotFoundException, IOException {
         while (true) {
             for (int i = 0; i < roomContainer; i++) {
-                myMiss.add( (HashSet<Coordinate>) playerMessengers.get(i).recv());
-                myHit.add( (LinkedHashMap<Coordinate,Character>) playerMessengers.get(i).recv());
-                myShips.add((ArrayList<Ship<Character> >) playerMessengers.get(i).recv());
+                myMiss.set(i,(HashSet<Coordinate>) playerMessengers.get(i).recv());
+                myHit.set(i, (LinkedHashMap<Coordinate,Character>) playerMessengers.get(i).recv());
+                myShips.set(i,(ArrayList<Ship<Character> >) playerMessengers.get(i).recv());
+                boards[i].myShips=myShips.get(i);
             }
             for (int i = 0; i < roomContainer; i++) {
                 if (endGameDetection(boards[i])) {

@@ -12,6 +12,9 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+
+import javax.lang.model.element.Element;
+
 import java.util.*;
 
 import edu.duke.zw255.battleship.shared.*;
@@ -56,7 +59,8 @@ public class Client {
     static void readPlayerInit() throws IOException {
         while (true) {
             try {
-                out.println("Please input 2 parameters, roomname, your player type(huamn/computer/smart computer), ex: a, human");
+                out.println(
+                        "Please input 2 parameters, roomname, your player type(huamn/computer/smart computer), ex: a, human");
                 String s = inputReader.readLine();
                 if (s == "" || s == null) {
                     throw new EOFException();
@@ -66,16 +70,16 @@ public class Client {
                 if (size != 2) {
                     throw new IllegalArgumentException("There should be 2 arguments!");
                 }
-                String playerType=params[1].trim();
-                if (playerType.equals("human") == false && playerType.equals("computer") == false && playerType.equals("smart computer") == false) {
+                String playerType = params[1].trim();
+                if (playerType.equals("human") == false && playerType.equals("computer") == false
+                        && playerType.equals("smart computer") == false) {
                     throw new IllegalArgumentException("You could only choose type from human or computer");
                 }
                 messenger.send(params[0]);
                 if (playerType.equals("smart computer")) {
                     p = new SmartComputerTextPlayer(playerName, myboard, inputReader, out, shipFactory);
                     out.println("You are smart computer");
-                }
-                else if (playerType.equals("computer")) {
+                } else if (playerType.equals("computer")) {
                     p = new ComputerTextPlayer(playerName, myboard, inputReader, out, shipFactory);
                     out.println("You are computer");
                 } else {
@@ -83,15 +87,21 @@ public class Client {
                     out.println("You are human player");
                 }
                 break;
-            } catch (EOFException|IllegalArgumentException e) {
+            } catch (EOFException | IllegalArgumentException e) {
                 out.println(e.getMessage());
             }
         }
     }
 
     public static void doAttackingPhase() throws IOException, ClassNotFoundException {
+        String myHeader = "Your ocean";
+        String enemyHeader = "Enemy's ocean";
+        out.println(p.view.displayMyBoardWithEnemyNextToIt(enemyView, myHeader, enemyHeader));
+
         while (true) {
             p.playOneTurn(enemyBoard, enemyView);
+            // out.println(enemyBoard);
+            // out.println(enemyBoard.enemyHits.toString());
             messenger.send(enemyBoard.enemyMisses);
             messenger.send(enemyBoard.enemyHits);
             messenger.send(p.theBoard.myShips);
@@ -101,8 +111,19 @@ public class Client {
                 break;
             }
             p.theBoard.enemyMisses = (HashSet<Coordinate>) messenger.recv();
-            p.theBoard.enemyHits = (LinkedHashMap<Coordinate,Character>) messenger.recv();   
-            enemyBoard.myShips =  (ArrayList<Ship<Character> >) messenger.recv();
+            p.theBoard.enemyHits = (LinkedHashMap<Coordinate, Character>) messenger.recv();
+            Set<Coordinate> s = p.theBoard.enemyHits.keySet();
+            ArrayList<Ship<Character>> myShips = p.theBoard.myShips;
+            for (Coordinate c : s) {
+                for (Ship<Character> ship : myShips) {
+                    if (ship.occupiesCoordinates(c)==true){
+                        ship.recordHitAt(c);
+                    }
+                    
+                }
+            }
+            enemyBoard.myShips = (ArrayList<Ship<Character>>) messenger.recv();
+            // out.println(enemyBoard.myShips.toString());
         }
     }
 
@@ -121,18 +142,18 @@ public class Client {
         shipFactory = new V2ShipFactory();
         initOrJoinChoice();
         out.println("Wait to start");
-        if ((int)messenger.recv()==Flag.startFlag){
+        if ((int) messenger.recv() == Flag.startFlag) {
             out.println("start game");
             p.doPlacementPhase();
             out.println("finish placement");
             messenger.send(p.theBoard);
-            messenger.send(p.view);
-            enemyBoard=(BattleShipBoard)messenger.recv();
-            enemyView=(BoardTextView)messenger.recv();
+            // out.println(p.theBoard);
+            // messenger.send(p.view);
+            enemyBoard = ((BattleShipBoard) messenger.recv());
+            enemyView = new BoardTextView(enemyBoard);
             doAttackingPhase();
         }
         messenger.closeMessenger();
-
 
     }
 }
